@@ -41,6 +41,7 @@ class PlainCatSchema(Schema):
     cat_id = fields.Int(dump_only=True)
     name = fields.Str()
     description = fields.Str()
+    Product_cat = fields.Nested(PlainProductSchema(), dump_only=True, many=True)
     
 class PlainCCatSchema(Schema):
     cat_id = fields.Int(dump_only=True)

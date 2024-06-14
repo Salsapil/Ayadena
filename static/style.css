@@ -12,6 +12,7 @@ body {
 body .container {
   width: 100%;
   text-align: center;
+  margin-bottom: 5%;
 }
 
 #filter-buttons button {

@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from db import db
 from models import ProductCategoryModel
+from flask import render_template
 from schemas import PlainCatSchema, CategoryUpdateSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
@@ -9,9 +10,12 @@ blp = Blueprint("categories", __name__, description="Operations on categories")
 
 @blp.route("/category")
 class CategoryList(MethodView):
-    @blp.response(200, PlainCatSchema(many=True))
+    # @blp.response(200, PlainCatSchema(many=True))
     def get(self):
-        return ProductCategoryModel.query.all()
+        category = ProductCategoryModel.query.all()
+        category = PlainCatSchema().dump(category, many=True)
+        print(category)
+        return render_template('index.html', category=category)
 
     @blp.arguments(PlainCatSchema) #dn make name unique 
     @blp.response(201, PlainCatSchema)
