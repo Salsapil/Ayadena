@@ -13,6 +13,7 @@ from resources.product_category import blp as CategoryBlueprint
 from resources.course import blp as CourseBlueprint
 from resources.course_category import blp as CCategoryBlueprint
 from resources.video import blp as VideoBlueprint
+from resources.order import blp as OrderBlueprint
 import os
 
 
@@ -43,6 +44,7 @@ def create_app(db_url=None):
     api.register_blueprint(CCategoryBlueprint)
     api.register_blueprint(CourseBlueprint)
     api.register_blueprint(VideoBlueprint)
+    api.register_blueprint(OrderBlueprint)
     app.config["JWT_SECRET_KEY"] = "Salsabil"
     jwt = JWTManager(app)
 

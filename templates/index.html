@@ -49,7 +49,7 @@
             <h5 class="card-title">${product["price"]} LE.</h5>
             <p class="card-text">
               "${product["name"]}"<br>${product["description"]}</p>
-            <button class="boo"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
+            <button class="boo add-to-cart" id="${product.product_id}"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
           </div>
         </div>
         `
@@ -76,7 +76,7 @@
             <h5 class="card-title">${product["price"]} LE.</h5>
             <p class="card-text">
               "${product["name"]}"<br>${product["description"]}</p>
-            <button class="boo"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
+            <button class="boo add-to-cart" id="${product.product_id}"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
           </div>
         </div>
         `
@@ -98,7 +98,7 @@
             <h5 class="card-title">${product["price"]} LE.</h5>
             <p class="card-text">
               "${product["name"]}"<br>${product["description"]}</p>
-            <button class="boo"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
+            <button class="boo add-to-cart" id="${product.product_id}"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
           </div>
         </div>
         `
@@ -106,7 +106,25 @@
       })
     });
     })
-    })</script>
+    $("button.add-to-cart").on("click", function() {
+      const productId = $(this).attr("id");
+      console.log(productId)
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+        'Content-Type': 'application/json' 
+        },
+          type: "POST",
+          url: '/add_to_cart',
+          data: JSON.stringify({ product_id: productId }),
+          dataType: "json",
+          success: function(response) {
+            console.log(response);
+          }
+        });
+    })
+  })
+    </script>
 </body>
 
 </html>

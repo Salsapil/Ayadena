@@ -120,6 +120,7 @@ class LearnerCourseSchema(Schema):
     learner = fields.Nested(UserSchema)
     course = fields.Nested(CourseSchema)
 
+
 # class RoleSchema(Schema):
 #     user_id = 
 #     user =
@@ -181,3 +182,7 @@ class OrderSchema(Schema):
     buyer = fields.Nested(PlainUserSchema(), dump_only=True)
     payment = fields.Nested(PlainPaymentSchema(), dump_only=True)
     product = fields.List(fields.Nested(PlainProductSchema()), dump_only=True)
+
+class OrderProductSchema(Schema):
+    order = fields.Nested(OrderSchema)
+    product = fields.Nested(ProductSchema)
