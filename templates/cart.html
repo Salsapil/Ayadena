@@ -1,147 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cart</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='cart.css')}}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Pacifico&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cart</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='cart.css')}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Pacifico&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
+
 <body>
   <header>
     <a href="#" class="logo">Ayadina</a>
     <ul class="navlist">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Events</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>     
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
     </ul>
 
     <div class="nav-right">
-        <a href="#"><i class='bx bx-user'></i></a>
-        <a href="#"><i class='bx bx-heart'></i></a>
-        <a href="#"><i class='bx bxs-cart-alt'></i></a>
-        <div class='bx bx-menu' id="bx-menu"></div>
+      <a href="#"><i class='bx bx-user'></i></a>
+      <a href="#"><i class='bx bx-heart'></i></a>
+      <a href="#"><i class='bx bxs-cart-alt'></i></a>
+      <div class='bx bx-menu' id="bx-menu"></div>
     </div>
- </header>
-  
+  </header>
+
   <div class="wrap-cf">
     <h1 class="projTitle">Ayadina <span>.com</span> Shopping Cart</h1>
     <div class="heading-cf">
       <h1>My Cart</h1>
-      <a href="#" class="continue" >Continue Shopping</a>
+      <div class="cart">
+        <ul class="cartWrap" id="list">
+        </ul>
+      </div>
+      <a href="#" class="continue">Continue Shopping</a>
     </div>
-    <div class="cart">
-      <ul class="cartWrap">
-        <li class="items">        
-        <div class="infoWrap"> 
-          <div class="cartSection">
-          <img src="img/w9.webp" alt="" class="itemImg" />
-            <p class="itemNumber">#QUE-007544-002</p>
-            <h3>Item Name 1</h3>
-             <p> <input type="text"  class="qty" placeholder="3"/> x 1500 L.E</p>
-            <p class="stockStatus"> In Stock</p>
-          </div>    
-          <div class="prodTotal-cartSection">
-            <p id="p1">250 L.E</p>
-          </div>
-                <div class="cartSection removeWrap">
-             <a href="#" class="remove">x</a>
-          </div>
-        </div>
-        </li>
-        <li class="items">
-          
-         <div class="infoWrap"> 
-          <div class="cartSection">
-           
-          <img src="img/n16.jpg" alt="" class="itemImg" />
-            <p class="itemNumber">#QUE-007544-002</p>
-            <h3>Item Name 1</h3>
-          
-             <p> <input type="text"  class="qty" placeholder="3"/> x 1500 L.E</p>
-          
-            <p class="stockStatus"> In Stock</p>
-          </div>  
-      
-          
-          <div class="prodTotal cartSection">
-            <p>$300</p>
-          </div>
-                <div class="cartSection removeWrap">
-             <a href="#" class="remove">x</a>
-          </div>
-        </div>
-        </li>
-        
-              <li class="items">
-               <div class="infoWrap"> 
-          <div class="cartSection">
-              
-          <img src="img/n25.jpg" alt="" class="itemImg" />
-            <p class="itemNumber">#QUE-007544-002</p>
-            <h3>Item Name 1</h3>
-          
-             <p> <input type="text"  class="qty" placeholder="3"/> x 1500 L.E</p>
-          
-            <p class="stockStatus"> in Stock</p>
-          </div>  
-      
-          
-          <div class="prodTotal cartSection">
-            <p>275 L.E</p>
-          </div>
-                      <div class="cartSection removeWrap">
-             <a href="#" class="remove">x</a>
-          </div>
-                </div>
-        </li>
-        <li class="items">
-         <div class="infoWrap"> 
-          <div class="cartSection info">
-               
-          <img src="img/n7.jpg" alt="" class="itemImg" />
-            <p class="itemNumber">#QUE-007544-002</p>
-            <h3>Item Name 1</h3>
-          
-            <p> <input type="text"  class="qty" placeholder="3"/> x 1500</p>
-          
-            <p class="stockStatus"> In Stock</p>
-            
-          </div>  
-      
-          
-          <div class="prodTotal cartSection">
-            <p>485 L.E</p>
-          </div>
-      
-              <div class="cartSection removeWrap">
-             <a href="#" class="remove">x</a>
-          </div>
-           </div>
-           <div class="special"><div class="specialContent"> <h5>Free gift with purchase!, do not miss it </h5></div>
-        </li>
-      </ul>
-    </div>  
-    <div class="promoCode"><label for="promo" id="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
-    <a href="#" class="btn"></a></div>
-    
     <div class="subtotal">
       <ul>
-        <li class="totalRow"><span class="label">Subtotal</span><span class="value">$35.00</span></li>
-        
-            <li class="totalRow"><span class="label">Shipping</span><span class="value">$5.00</span></li>
-        
-              <li class="totalRow"><span class="label">Tax</span><span class="value">$4.00</span></li>
-              <li class="totalRowfinal"><span class="label">Total</span><span class="value">$44.00</span></li>
-        <li class="totalRow"><a href="#" class="btn-continue">Checkout</a></li>
+        <li class="totalRow" style="text-align: left;"><span class="label">Shipping</span><span class="value">$50</span></li>
+        <li class="totalRowfinal"><span class="label">Total</span><span class="value" id="totalPrice"></span></li>
+        <li class="totalRow" style="list-style-type: none;"><a href="#" class="btn-continue">Checkout</a></li>
       </ul>
     </div>
   </div>
-  <script src="js/cart.js"></script>
+  <script>
+    $(document).ready(() => {
+      let orders = {{ order | tojson
+    }};
+    let totalPrice = 0;
+
+    function calculateTotalPrice() {
+      totalPrice = 0;
+      orders.forEach(product => {
+        totalPrice += parseFloat(product.price);
+      });
+      totalPrice += 50;
+      $("#totalPrice").text(`${totalPrice} L.E`);
+    }
+    console.log(orders);
+
+    orders.forEach(product => {
+      $("#list").append(
+        `
+                <li class="items" data-product-id="${product.product_id}">
+                    <div class="infoWrap">
+                        <div class="cartSection">
+                            <img src="${product.image}" alt="" class="itemImg" />
+                            <p class="itemNumber">#QUE-${product.product_id}</p>
+                            <h3>${product.name}</h3>
+                            <h4>${product.description}</h4>
+                        </div>
+                        <div class="prodTotal-cartSection">
+                            <p id="p1">${product.price} L.E</p>
+                        </div>
+                        <div class="cartSection removeWrap">
+                            <a href="#" class="remove">x</a>
+                        </div>
+                    </div>
+                </li>
+                `
+      );
+    });
+    calculateTotalPrice();
+    $(".remove").on('click', function (e) {
+      let product_id = $(this).closest('li').data('product-id');
+      console.log('Removing product with ID:', product_id);
+
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        url: '/remove_from_cart',
+        type: 'DELETE',
+        contentType: 'application/json',
+        data: JSON.stringify({ product_id: product_id }),
+        success: function (response) {
+          console.log(response);
+
+          orders = orders.filter(product => product.product_id !== product_id);
+          console.log('Updated Orders:', orders);
+
+          $(`li[data-product-id=${product_id}]`).remove();
+          calculateTotalPrice();
+        },
+        error: function (error) {
+          console.error('Error removing product:', error);
+        }
+      });
+    });
+    });
+  </script>
 </body>
