@@ -80,6 +80,11 @@ class PlainPaymentSchema(Schema):
     date = fields.Date()
     amount = fields.Int()
     method = fields.Str()
+    card_name = fields.Str()
+    card_number = fields.Int()
+    exp_month = fields.Str()
+    exp_year = fields.Int()
+    cvv = fields.Int()
 
 #plan
 class PlainPlanSchema(Schema):

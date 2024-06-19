@@ -1,10 +1,10 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from db import db
-from models import OrderModel, OrderProductModel, ProductModel
+from models import OrderModel, OrderProductModel, ProductModel, PaymentModel
 from flask import render_template, request, json
 import datetime
-from schemas import ProductSchema, OrderProductSchema
+from schemas import ProductSchema, OrderSchema, PlainPaymentSchema, OrderProductSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 blp = Blueprint("Orders", __name__, description="Operations on categories")
@@ -91,3 +91,71 @@ class RemoveFromCart(MethodView):
         db.session.commit()
 
         return {"message": "Product removed from order"}, 200
+
+@blp.route("/update_order", methods=["PUT"])
+class UpdateOrder(MethodView):
+    def put(self):
+        order_data = request.get_json()
+        buyer_id = 7
+        order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
+        order_id = order.order_id
+
+        order = OrderModel.query.get(order_id)
+        if not order:
+            return {"error": "Order not found"}, 404
+
+        try:
+            order.block_no = order_data.get("block_no", order.block_no)
+            order.street = order_data.get("street", order.street)
+            order.city = order_data.get("city", order.city)
+            order.country = order_data.get("country", order.country)
+            order.postal_code = order_data.get("postal_code", order.postal_code)
+            order.amount = order_data.get("amount", order.amount)
+
+            db.session.commit()
+
+            response_data = OrderSchema().dump(order)
+            return json.dumps(response_data), 200, {'ContentType': 'application/json'}
+        except (SQLAlchemyError, IntegrityError) as e:
+            db.session.rollback()
+            return {"error": str(e)}, 400
+
+@blp.route("/insert_payment", methods=["POST"])
+class InsertPayment(MethodView):
+    def post(self):
+        payment_data = request.get_json()
+        buyer_id = 7
+        order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
+        order_id = order.order_id
+        try:
+            new_payment = PaymentModel(
+                date=datetime.datetime.now(),
+                amount=0,
+                card_name=payment_data.get("card_name"),
+                card_number=payment_data.get("card_number"),
+                exp_month=payment_data.get("exp_month"),
+                exp_year=payment_data.get("exp_year"),
+                cvv=payment_data.get("cvv"),
+                order_id=order_id
+            )
+            print(new_payment)
+            
+            db.session.add(new_payment)
+            db.session.commit()
+            
+            if new_payment.order_id == order_id:
+                order.order_compelete = True
+                db.session.commit()
+
+            response_data = PlainPaymentSchema().dump(new_payment)
+            return json.dumps(response_data), 201, {'ContentType': 'application/json'}
+        except (SQLAlchemyError, IntegrityError) as e:
+            db.session.rollback()
+            return {"error": str(e)}, 400
+
+@blp.route("/checkout", methods=["GET"])
+def checkout():
+    buyer_id = 7
+    order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
+    order_id = order.order_id
+    return render_template("checkout.html", order_id=order_id)
