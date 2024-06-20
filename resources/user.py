@@ -6,14 +6,23 @@ from models import SellerModel
 from models import UserModel, AdminModel
 from schemas import PlainUserSchema, UserSchema
 from flask_jwt_extended import create_access_token
+from flask import render_template, request
 
 
 blp = Blueprint("Users", "users", description="Operations on users")
 
+# @blp.route("/register_page", methods=["GET"])
+# def registration():
+#     return render_template("register.html")
+
 @blp.route("/register")
 class UserRegister(MethodView):
-    @blp.arguments(PlainUserSchema)
-    def post(self, user_data):
+    def get(self):
+        return render_template('register.html')
+
+    # @blp.arguments(PlainUserSchema)
+    def post(self):
+        user_data = request.get_json()
         if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             abort(409, message="A user with that username already exists.")
         if UserModel.query.filter(UserModel.email == user_data["email"]).first():
@@ -32,7 +41,7 @@ class UserRegister(MethodView):
         )
         db.session.add(user)
         db.session.commit()
-
+        
         return {"message": "User created successfully."}, 201
 
 @blp.route("/login")
@@ -57,13 +66,13 @@ class UserLogin(MethodView):
 
         abort(401, message="Invalid credentials.")
 
-@blp.route("/user")
-class UserList(MethodView):
-    """GET"""
+# @blp.route("/user")
+# class UserList(MethodView):
+#     """GET"""
 
-    @blp.response(200, PlainUserSchema(many=True))
-    def get(self):
-        return UserModel.query.all()
+#     @blp.response(200, PlainUserSchema(many=True))
+#     def get(self):
+#         return UserModel.query.all()
 
 
 @blp.route("/user/<string:user_id>")

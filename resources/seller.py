@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask import render_template, request
 from db import db
 from models import SellerModel, UserModel
 from schemas import PlainSellerSchema
@@ -13,8 +14,12 @@ blp = Blueprint("Sellers", "sellers", description="Operations on sellers")
 
 @blp.route("/register_seller")
 class SellerRegister(MethodView):
-    @blp.arguments(PlainSellerSchema)
-    def post(self, seller_data):
+    def get(self):
+        return render_template('seller_register.html')
+    
+    # @blp.arguments(PlainSellerSchema)
+    def post(self):
+        seller_data = request.get_json()
         seller = SellerModel(
             first_name=seller_data["first_name"],
             last_name=seller_data["last_name"],
@@ -24,7 +29,8 @@ class SellerRegister(MethodView):
             phone=seller_data["phone"],
             birthday=seller_data["birthday"],
             city = seller_data["city"],
-            country = seller_data["country"], 
+            country = seller_data["country"],
+            postal_code = seller_data["postal_code"],
             national_id=seller_data["national_id"],
             brand_name=seller_data["brand_name"],
             bank_acc = seller_data["bank_acc"],
