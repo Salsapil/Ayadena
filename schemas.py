@@ -35,6 +35,10 @@ class PlainSellerSchema(PlainUserSchema):
     national_id = fields.Str()
     bank_acc = fields.Str()
     brand_name = fields.Str()
+    postal_code = fields.Str()
+    units_sold = fields.Str()
+    unpaid_balance = fields.Str()
+    paid_balance = fields.Str()
 
 #category
 class PlainCatSchema(Schema):

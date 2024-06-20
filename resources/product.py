@@ -1,17 +1,23 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from db import db
-from models import ProductModel
-from schemas import ProductSchema, PlainProductSchema, ProductUpdateSchema
+from flask import render_template
+from models import ProductModel, SellerModel
+from schemas import ProductSchema, PlainProductSchema, ProductUpdateSchema, PlainSellerSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 blp = Blueprint("Products", __name__, description="Operations on users")
 
 @blp.route("/product")
 class ProductList(MethodView):
-    @blp.response(200, PlainProductSchema(many=True))
+    # @blp.response(200, PlainProductSchema(many=True))
     def get(self):
-        return ProductModel.query.all()
+        seller_id = 3
+        seller_data = SellerModel.query.get_or_404(seller_id)
+        seller_data = PlainSellerSchema().dump(seller_data)
+        product = ProductModel.query.filter_by(seller_id=seller_id).all()
+        product = ProductSchema().dump(product, many=True)
+        return render_template('seller_page.html', product=product, seller_data=seller_data)
 
     @blp.arguments(ProductSchema)
     @blp.response(201, ProductSchema)
