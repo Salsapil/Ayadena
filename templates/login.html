@@ -1,72 +1,115 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Responsive Login and Signup Form </title>
+<html lang="en">
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="login.css">
-                
-        <!-- Boxicons CSS -->
-        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Playwrite+SK:wght@100..400&display=swap" rel="stylesheet">
-                        
-    </head>
-    <body>
-        <section class="container forms">
-            <div class="form login">
-                <div class="form-content">
-                    <header>Login</header>
-                    <form action="#">
-                        <div class="field input-field">
-                            <input type="email" placeholder="Email" class="input">
-                        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Responsive Login and Signup Form </title>
 
-                        <div class="field input-field">
-                            <input type="password" placeholder="Password" class="password">
-                            <i class='bx bx-hide eye-icon'></i>
-                        </div>
+    <!-- CSS -->
+    <link rel="stylesheet" href="login.css">
 
-                        <div class="form-link">
-                            <a href="#" class="forgot-pass">Forgot password?</a>
-                        </div>
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Playwrite+SK:wght@100..400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='style_login.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="login.js"></script>
 
-                        <div class="field button-field">
-                            <button><a href="C:\Users\Lenovo\OneDrive\Desktop\aydena\Home page\index.html" style="color: black; text-decoration: none;">Login</a></button>
-                        </div>
-                    </form>
+</head>
 
-                    <div class="form-link">
-                        <span>Don't have an account?</span>
-                        <button style="background: none; border: none;"><a href="C:\Users\Lenovo\OneDrive\Desktop\aydena\final regustration form\index.html">Rigester Now</a></button>
+<body>
+    <section class="container forms">
+        <div class="form login">
+            <div class="form-content">
+                <header>Login</header>
+                <form action="#" id="loginform">
+                    <div class="field input-field">
+                        <input type="email" id="email" name="email" placeholder="Email" class="input">
                     </div>
+
+                    <div class="field input-field">
+                        <input type="password" id="password" name="password" placeholder="Password" class="password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <!-- <div class="form-link">
+                            <a href="#" class="forgot-pass">Forgot password?</a>
+                        </div> -->
+
+                    <div class="field button-field">
+                        <button id="submitBtn" type="submit">Login</button>
+                    </div>
+                </form>
+
+                <div class="form-link">
+                    <span>Don't have an account?</span>
+                    <button style="background: none; border: none;"><a
+                            href="C:\Users\Lenovo\OneDrive\Desktop\aydena\final regustration form\index.html">Rigester
+                            Now</a></button>
                 </div>
-
-                <div class="line"></div>
-
-                <div class="media-options">
-                    <a href="#" class="field facebook">
-                        <i class='bx bxl-facebook facebook-icon'></i>
-                        <span>Login with Facebook</span>
-                    </a>
-                </div>
-
-                <div class="media-options">
-                    <a href="#" class="field google">
-                        <img src="images/download (1).png" alt="" class="google-img">
-                        <span>Login with Google</span>
-                    </a>
-                </div>
-
             </div>
-          
+
+            <div class="line"></div>
+
+            <div class="media-options">
+                <a href="#" class="field facebook">
+                    <i class='bx bxl-facebook facebook-icon'></i>
+                    <span>Login with Facebook</span>
+                </a>
+            </div>
+
+            <div class="media-options">
+                <a href="#" class="field google">
+                    <img src="images/download (1).png" alt="" class="google-img">
+                    <span>Login with Google</span>
+                </a>
+            </div>
+            <div id="error"></div>
+
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#submitBtn').click(function (e) {
+                    e.preventDefault();
+                    let user_data = $("#loginform").serializeArray();
+
+                    console.log(user_data)
+                    // console.log(payment)
+                    let dataPayload = {};
+                    user_data.forEach(function (item) {
+                        dataPayload[item.name] = item.value;
+                    });
+
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        url: '/login',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(dataPayload),
+                        success: function (response) {
+                            console.log(response)
+                            console.log('login done', response);
+                            // window.location.href = '/login';
+                        },
+                        error: function (response) {
+                            console.log(response)
+                            $("#error").text(response.responseJSON["message"])
+                        }
+                    });
+                });
+            });
+        </script>
 
 
-        <!-- JavaScript -->
-        <script src="login.js"></script>
-    </body>
+</body>
+
 </html>

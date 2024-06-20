@@ -46,8 +46,12 @@ class UserRegister(MethodView):
 
 @blp.route("/login")
 class UserLogin(MethodView):
-    @blp.arguments(PlainUserSchema) #load incoming data to user schema --> object
-    def post(self, user_data):
+    def get(self):
+        return render_template('login.html')
+
+    # @blp.arguments(PlainUserSchema) #load incoming data to user schema --> object
+    def post(self):
+        user_data = request.get_json()
         admin = AdminModel.query.filter(
             AdminModel.email == user_data["email"]
         ).first()
