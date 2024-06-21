@@ -19,29 +19,55 @@
     <div id="seller-data" class="section">
     </div>
 
-    <div class="section" style="background-color: beige; border-left: 5px solid brown;">
+    <div class="section" style="border-left: 5px solid brown;">
         <h2 style="float: left; text-align: left;"> Your Products</h1>
     </div>
 
-    <div id="products" class="section" style="background-color: beige">
+    <div id="products" class="section">
     </div>
 
     <div id="add-product-form" class="section">
         <h2>Add New Product</h2>
         <form id="addproduct">
+            <label for="product-category">Category ID</label>
+            <input type="text" id="cat_id" name="cat_id" required>
+
             <label for="product-name">Product Name</label>
-            <input type="text" id="product-name" name="product-name" required>
+            <input type="text" id="name" name="name" required>
 
             <label for="product-description">Product Description</label>
-            <textarea id="product-description" name="product-description" rows="2" required></textarea>
+            <textarea id="description" name="description" rows="2" required></textarea>
 
             <label for="product-price">Product Price</label>
-            <input type="number" id="product-price" name="product-price" required>
+            <input type="number" id="price" name="price" required>
 
             <label for="product-image">Product Image</label>
-            <input type="url" id="product-image" name="product-image" required>
+            <input type="url" id="image" name="image" required>
 
-            <button type="submit" style="margin-top: 25px;">Add Product</button>
+            <button id="submitbtn" type="submit" style="margin-top: 25px;">Add Product</button>
+        </form>
+    </div>
+
+    <div id="add-product-form" class="section">
+        <h2>Update Existing Product </h2>
+        <p>Product Code: #QUE- <span id="code"></span></p>
+        <form id="uproduct">
+            <label for="product-category">Category ID</label>
+            <input type="text" id="cat_id" name="cat_id" required>
+
+            <label for="product-name">Product Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="product-description">Product Description</label>
+            <textarea id="description" name="description" rows="2" required></textarea>
+
+            <label for="product-price">Product Price</label>
+            <input type="number" id="price" name="price" required>
+
+            <label for="product-image">Product Image</label>
+            <input type="text" id="image" name="image" required>
+
+            <button id="submitbtnUpdate" type="submit" style="margin-top: 25px;">Update Product</button>
         </form>
     </div>
 
@@ -54,8 +80,9 @@
     </div>
     <script>
         $(document).ready(() => {
-            let products = {{ product | tojson }};
-            let seller = {{ seller_data | tojson }};
+            let products = {{ product | tojson
+        }};
+        let seller = {{ seller_data | tojson }};
         console.log(seller)
         $("#seller-data").append(
             `
@@ -69,19 +96,106 @@
         products.forEach(element => {
             $("#products").append(
                 `
-                <div class="product-card">
-                    <img src="${element["image"]}" alt="Product Image" style="height: 250px;">
+                <div class="product-card" data-product-id="${element["product_id"]}">
+                    <img src="/static/images/${element["image"]}" alt="Product Image" style="height: 250px;">
                     <h3>${element["name"]}</h3>
+                    <h6>#QUE-${element["product_id"]}</h6>
                     <p>${element["description"]}</p>
                     <p>${element["price"]} LE.</p>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                    <button type="button" class="btn btn-secondary">Update</button>
+                    <button type="button" class="btn btn-danger delete">Delete</button>
+                    <button type="button" class="btn btn-secondary update" onclick=
+                    "window.location.href = '#uproduct';">Update</button>
                 </div>
             `
             )
         })
+        $('#submitbtn').click(function (e) {
+            e.preventDefault();
+            let product_data = $("#addproduct").serializeArray();
 
+            console.log(product_data)
+            // console.log(payment)
+            let dataPayload = {};
+            product_data.forEach(function (item) {
+                dataPayload[item.name] = item.value;
+            });
+
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: '/product',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataPayload),
+                success: function (response) {
+                    console.log(response)
+                    console.log('Product Added successfully:', response);
+                },
+                // error: function (response) {
+                //     console.log(response)
+                //     $("#error").text(response.responseJSON["message"])
+                // }
+            });
         });
+        $(".delete").click(function (e) {
+            let product_id = $(this).closest('div').data('product-id');
+            console.log(product_id);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: '/delete_product',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify({ product_id: product_id }),
+                success: function (response) {
+                    console.log(response);
+                },
+                // error: function (error) {
+                //     console.error('Error removing product:', error);
+                // }
+            });
+        });
+
+        // card button
+        $(".update").click(function (e) {
+            let product_id = $(this).closest('div').data('product-id');
+            $('html, body').animate({
+                scrollTop: $("#uproduct").offset().top
+            }, 900);
+            console.log(product_id)
+            $("#code").text(product_id)
+            $("#submitbtnUpdate").click(function (e) {
+                e.preventDefault();
+                let product = $("#uproduct").serializeArray();
+                let productPayload = {};
+                product.forEach(function (element) {
+                    if (element.value !== "") {
+                        productPayload[element.name] = element.value;
+                    }
+                });
+                productPayload['product_id'] = product_id;
+                console.log(productPayload)
+                console.log(product_id)
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    url: '/update_product',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productPayload),
+                    success: function (response) {
+                        console.log('Product updated successfully:', response);
+                    }
+                });
+            });
+        });
+    });
     </script>
 </body>
 

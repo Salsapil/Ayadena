@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask import request
 from db import db
 from flask import render_template
 from models import ProductModel, SellerModel
@@ -19,10 +20,20 @@ class ProductList(MethodView):
         product = ProductSchema().dump(product, many=True)
         return render_template('seller_page.html', product=product, seller_data=seller_data)
 
-    @blp.arguments(ProductSchema)
-    @blp.response(201, ProductSchema)
-    def post(self, product_data):
-        product = ProductModel(**product_data)
+    # @blp.arguments(ProductSchema)
+    # @blp.response(201, ProductSchema)
+    def post(self):
+        product_data = request.get_json()
+        print(product_data)
+        product = ProductModel(
+            seller_id = 3,
+            cat_id = product_data.get("cat_id"),
+            name = product_data.get("name"),
+            description = product_data.get("description"),
+            price = product_data.get("price"),
+            amount = 0,
+            image = product_data.get("image")
+        )
         try:
             db.session.add(product)
             db.session.commit()
@@ -33,18 +44,26 @@ class ProductList(MethodView):
         return product
 
 
-@blp.route("/product/<int:product_id>") #int to all
+@blp.route("/delete_product", methods=["DELETE"])
 class Product(MethodView):
-    @blp.response(200, PlainProductSchema)
-    def delete(self, product_id):
+    # @blp.response(200, PlainProductSchema)
+    def delete(self):
+        product_id = request.get_json()
+        print(product_id)
         product = ProductModel.query.get_or_404(product_id)
         db.session.delete(product)
         db.session.commit()
         return {"message": "deleted"}
 
-    @blp.arguments(ProductUpdateSchema)
-    @blp.response(200, PlainProductSchema)
-    def put(self, product_data, product_id, update_column=None):
+    # @blp.arguments(ProductUpdateSchema)
+    # @blp.response(200, PlainProductSchema)
+@blp.route("/update_product", methods=["PUT"])
+class ProductUpdate(MethodView):
+    def put(self, update_column=None):
+        product_data = request.get_json()
+        print(product_data)
+        product_id = product_data.get("product_id")
+        print(product_id)
         product = ProductModel.query.get_or_404(product_id)
 
         if product:
