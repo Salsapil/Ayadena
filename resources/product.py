@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask import request
+from flask import request, jsonify
 from db import db
 from flask import render_template
 from models import ProductModel, SellerModel
@@ -87,3 +87,26 @@ class ProductUpdate(MethodView):
                 abort(400, message="Update failed due to integrity constraint violation.")
         else:
             abort(404, message="Product not found.")
+
+#final
+@blp.route('/admin_products', methods=['GET'])
+def get_products():
+    products = ProductModel.query.all()
+    products_list = [
+        {
+            'product_id': product.product_id,
+            'name': product.name,
+            'cat_id': product.cat_id,
+            'seller_id': product.seller_id
+        } for product in products
+    ]
+    return jsonify(products_list)
+
+@blp.route('/delete_product/<int:product_id>', methods=['DELETE'])
+def delete_product(product_id):
+    product = ProductModel.query.get(product_id)
+    if product:
+        db.session.delete(product)
+        db.session.commit()
+        return jsonify({'message': 'product deleted successfully'}), 200
+    return jsonify({'message': 'product not found'}), 404

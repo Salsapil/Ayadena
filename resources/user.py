@@ -6,7 +6,7 @@ from models import SellerModel
 from models import UserModel, AdminModel
 from schemas import PlainUserSchema, UserSchema
 from flask_jwt_extended import create_access_token
-from flask import render_template, request
+from flask import render_template, request, jsonify
 
 
 blp = Blueprint("Users", "users", description="Operations on users")
@@ -87,3 +87,29 @@ class User(MethodView):
         db.session.delete(user)
         db.session.commit()
         return {"message": "deleted"}
+
+# final
+@blp.route('/admin_users', methods=['GET'])
+def get_users():
+    users = UserModel.query.all()
+    sellers = SellerModel.query.all()
+    seller_ids = {seller.user_id for seller in sellers}
+    users_list = [
+        {
+            'user_id': user.user_id,
+            'username': user.username,
+            'email': user.email,
+            'phone': user.phone,
+            'is_seller': user.user_id in seller_ids
+        } for user in users
+    ]
+    return jsonify(users_list)
+
+@blp.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = UserModel.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'}), 200
+    return jsonify({'message': 'User not found'}), 404

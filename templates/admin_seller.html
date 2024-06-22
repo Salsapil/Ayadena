@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='admin.css')}}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Manage Sellers</h2>
+            <ul>
+                <li><a href="/register_admin">Dashboard</a></li>
+                <li><a href="/admin_user">Manage Users</a></li>
+                <li><a href="/admin_seller">Manage Sellers</a></li>
+                <li><a href="/admin_courses">Manage Courses</a></li>
+                <li><a href="/admin_order">Manage Orders</a></li>
+                <li><a href="/admin_product">Manage Products</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <h1>Sellers</h1>
+            <table id="sellersTable">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th style="width: 6%;">DELETE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            fetchSellers();
+
+            function fetchSellers() {
+                $.ajax({
+                    url: '/admin_sellers',
+                    type: 'GET',
+                    success: function (response) {
+                        populateTable(response);
+                    },
+                    error: function (error) {
+                        console.error("Error fetching sellers:", error);
+                    }
+                });
+            }
+
+            function populateTable(sellers) {
+                const tableBody = $('#sellersTable tbody');
+                tableBody.empty(); // Clear any existing rows
+
+                sellers.forEach(seller => {
+                    const row = `
+                        <tr>
+                            <td>${seller.user_id}</td>
+                            <td>${seller.username}</td>
+                            <td>${seller.email}</td>
+                            <td>${seller.phone}</td>
+                            <td>
+                                <button 
+                                    class="delete-btn" 
+                                    data-user-id="${seller.user_id}" 
+                                    style="background-color: red; margin-left: 6px; border: none; padding: 6px; color: white; font-weight: bold;">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.append(row);
+                });
+
+                // Attach event listeners to delete buttons
+                $('.delete-btn').click(function () {
+                    const userId = $(this).data('user-id');
+                    deleteSeller(userId);
+                });
+            }
+
+            function deleteSeller(userId) {
+                $.ajax({
+                    url: `/delete_seller/${userId}`,
+                    type: 'DELETE',
+                    success: function (response) {
+                        alert("Seller deleted successfully!");
+                        fetchSellers(); // Refresh the table
+                    },
+                    error: function (error) {
+                        console.error("Error deleting seller:", error);
+                        alert("Error deleting seller.");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask import render_template, request
 from db import db
+from flask import jsonify
 from models import SellerModel, UserModel
 from schemas import PlainSellerSchema
 from passlib.hash import pbkdf2_sha256
@@ -54,3 +55,29 @@ class Seller(MethodView):
         seller = SellerModel.query.get_or_404(seller_id)
         db.session.delete(seller)
         db.session.commit()
+
+#final
+@blp.route('/admin_sellers', methods=['GET'])
+def get_users():
+    users = UserModel.query.all()
+    sellers = SellerModel.query.all()
+    seller_ids = {seller.user_id for seller in sellers}
+    users_list = [
+        {
+            'user_id': user.user_id,
+            'username': user.username,
+            'email': user.email,
+            'phone': user.phone,
+            'is_seller': user.user_id in seller_ids
+        } for user in users
+    ]
+    return jsonify(users_list)
+
+@blp.route('/delete_seller/<int:user_id>', methods=['DELETE'])
+def delete_seller(user_id):
+    seller = SellerModel.query.get(user_id)
+    if seller:
+        db.session.delete(seller)
+        db.session.commit()
+        return jsonify({'message': 'Seller deleted successfully'}), 200
+    return jsonify({'message': 'Seller not found'}), 404

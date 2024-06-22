@@ -6,89 +6,112 @@
   <title>Responsive Registration Form</title>
   <meta name="viewport" content="width=device-width,
       initial-scale=1.0" />
-  <link rel="stylesheet" href="{{url_for('static', filename='style_seller.css')}}" />
+  <link rel="stylesheet" href="{{url_for('static', filename='style_register.css')}}" />
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    <h1 class="form-title">Registration</h1>
-    <form action="#" id="registerForm">
-      <div class="main-user-info">
-        <div class="user-input-box">
-          <label for="firstName">First name</label>
-          <input type="text" id="firstame" name="first_name" placeholder="Enter First Name" />
-        </div>
-        <div class="user-input-box">
-          <label for="lastname">last Name</label>
-          <input type="text" id="lastname" name="last_name" placeholder="Enter Last Name" />
-        </div>
-        <div class="user-input-box">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="Enter Username" />
-        </div>
-        <div class="user-input-box">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Enter Email" />
-        </div>
-        <div class="user-input-box">
-          <label for="dateofbirth">Date of Birth</label>
-          <input type="date" id="dateofbirth" name="birthday" placeholder="Enter BirthDate" />
-        </div>
-        <div class="user-input-box">
-          <label for="phoneNumber">Phone Number</label>
-          <input type="text" id="phoneNumber" name="phone" placeholder="Enter Phone Number" />
-        </div>
-        <div class="user-input-box">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter Password" />
-        </div>
-        <div class="user-input-box">
-          <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
-        </div>
-        <div class="user-input-box">
-          <label for="national_id">National ID</label>
-          <input type="text" id="national_id" name="national_id" placeholder="Enter National ID" />
-        </div>
-        <div class="user-input-box">
-          <label for="brand_name">Brand Name</label>
-          <input type="text" id="brand_name" name="brand_name" placeholder="Enter Brand Name" />
-        </div>
-        <div class="user-input-box">
-          <label for="balance_no">Balance Number</label>
-          <input type="text" id="bank_acc" name="bank_acc" placeholder="Enter Balnce Number" />
-        </div>
-        <div class="user-input-box">
-          <label for="city">City</label>
-          <input type="text" id="city" name="city" placeholder="Enter City" />
-        </div>
-        <div class="user-input-box">
-          <label for="country">country</label>
-          <input type="text" id="country" name="country" placeholder="Enter Country" />
-        </div>
-        <div class="user-input-box">
-          <label for="postal_code">Zip Code</label>
-          <input type="text" id="postal_code" name="postal_code" placeholder="Enter postal_code" />
-        </div>
-      </div>
+  <form id="registrationForm">
+    <h1 style="text-align: center; margin-bottom: 20px;">Registration Form</h1>
+    <hr style="margin-bottom: 25px;">
 
-      <div class="form-submit-btn">
-        <button id="submitBtn" type="submit">Register</button>
-      </div>
-      <div id="error"></div>
-    </form>
-  </div>
+    <div class="form-row">
+      <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+      <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="username" name="username" placeholder="Username" required>
+      <input type="email" id="email" name="email" placeholder="Email" required>
+    </div>
+
+    <div class="form-row">
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+    </div>
+
+    <div class="form-row">
+      <input type="tel" id="phone" name="phone" placeholder="Phone" required>
+      <input type="date" id="birthday" name="birthday" placeholder="Birthday" required>
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="city" name="city" placeholder="City" required>
+      <input type="text" id="country" name="country" placeholder="Country" required>
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="national_id" name="national_id" placeholder="National ID" required>
+      <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required>
+    </div>
+
+    <div class="form-row">
+      <input type="text" id="bank_acc" name="bank_acc" placeholder="Bank Account" required>
+      <input type="text" id="postal_code" name="postal_code" placeholder="Zip Code" required>
+    </div>
+
+    <div class="form-row full">
+      <button type="submit">Register</button>
+    </div>
+
+    <div class="error-message" id="passwordMismatchAlert" style="display: none; border-left: 2px solid red;">
+      <!-- This div will display password mismatch error -->
+    </div>
+    <div class="error-message" id="alertContainer" style="display: none; border-left: 2px solid red;">
+      <span id="alertMessage"></span>
+    </div>
+  </form>
   <script>
-    $(document).ready(function () {
-      $('#submitBtn').click(function (e) {
-        e.preventDefault();
-        let user_data = $("#registerForm").serializeArray();
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+      event.preventDefault();
 
-        console.log(user_data)
-        // console.log(payment)
+      let isValid = true;
+      let alertMessage = '';
+
+      const first_name = document.getElementById('first_name').value.trim();
+      const last_name = document.getElementById('last_name').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const birthday = document.getElementById('birthday').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const confirm_password = document.getElementById('confirm_password').value.trim();
+      const country = document.getElementById('country').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const national_id= document.getElementById('national_id').value.trim();
+      const brand_name = document.getElementById('brand_name').value.trim();
+      const bank_acc = document.getElementById('bank_acc').value.trim();
+      const postal_code = document.getElementById('postal_code').value.trim();
+
+      if (password !== confirm_password) {
+        isValid = false;
+        document.getElementById('passwordMismatchAlert').style.display = 'block';
+        document.getElementById('passwordMismatchAlert').innerHTML = 'Passwords do not match. Try again!';
+      } else {
+        document.getElementById('passwordMismatchAlert').style.display = 'none';
+      }
+
+      if (!first_name || !last_name || !username || !email || !birthday || !phone || !password || !confirm_password || !country || !city || !national_id || !brand_name || !bank_acc || !postal_code) {
+        isValid = false;
+        alertMessage = 'All fields are required.';
+      }
+
+      if (isValid == false) {
+        const alertContainer = document.getElementById('alertContainer');
+        const alertMessageDiv = document.getElementById('alertMessage');
+        alertMessageDiv.textContent = alertMessage;
+        alertContainer.style.display = alertMessage ? 'block' : 'none'; // Show only if there's an error message
+      }
+    });
+
+    // Backend (jQuery AJAX)
+    $(document).ready(function () {
+      $('#registrationForm').submit(function (e) {
+        e.preventDefault();
+        let user_data = $(this).serializeArray();
+
         let dataPayload = {};
-        user_data.forEach(function (item) {
+        $.each(user_data, function (index, item) {
           dataPayload[item.name] = item.value;
         });
 
@@ -102,14 +125,16 @@
           contentType: 'application/json',
           data: JSON.stringify(dataPayload),
           success: function (response) {
-            console.log(response)
-            console.log('Seller Created successfully:', response);
+            console.log('Seller created successfully:', response);
             // window.location.href = '/login';
           },
-          // error: function (response) {
-          //   console.log(response)
-          //   $("#error").text(response.responseJSON["message"])
-          // }
+          error: function (error) {
+            console.error('Error creating seller:', error);
+            const alertContainer = document.getElementById('alertContainer');
+            const alertMessageDiv = document.getElementById('alertMessage');
+            alertMessageDiv.textContent = error.responseJSON.message;
+            alertContainer.style.display = 'block';
+          }
         });
       });
     });

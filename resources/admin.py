@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask import render_template
 from passlib.hash import pbkdf2_sha256
 from db import db
 from models import AdminModel
@@ -11,7 +12,9 @@ blp = Blueprint("Admins", "admins", description="Operations on Admins")
 
 @blp.route("/register_admin")
 class AdminRegister(MethodView):
-    @blp.arguments(AdminSchema)
+    def get(self):
+        return render_template('admin.html')
+    # @blp.arguments(AdminSchema)
     def post(self, admin_data):
         if AdminModel.query.filter(AdminModel.email == admin_data["email"]).first():
             abort(409, message="An admin with that email already exists.")
@@ -33,4 +36,22 @@ class AdminList(MethodView):
     def get(self):
         return AdminModel.query.all()
 
-#delete
+@blp.route("/admin_user", methods=["GET"])
+def checkout():
+    return render_template("admin_user.html")
+
+@blp.route("/admin_courses", methods=["GET"])
+def checkout():
+    return render_template("admin_courses.html")
+
+@blp.route("/admin_product", methods=["GET"])
+def checkout():
+    return render_template("admin_product.html")
+
+@blp.route("/admin_order", methods=["GET"])
+def checkout():
+    return render_template("admin_order.html")
+
+@blp.route("/admin_seller", methods=["GET"])
+def checkout():
+    return render_template("admin_seller.html")

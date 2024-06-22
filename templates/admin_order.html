@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='admin.css')}}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Manage Orders</h2>
+            <ul>
+                <li><a href="/register_admin">Dashboard</a></li>
+                <li><a href="/admin_user">Manage Users</a></li>
+                <li><a href="/admin_seller">Manage Sellers</a></li>
+                <li><a href="/admin_courses">Manage Courses</a></li>
+                <li><a href="/admin_order">Manage Orders</a></li>
+                <li><a href="/admin_product">Manage Products</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <h1>Orders</h1>
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Buyer Name</th> <!-- Add this line -->
+                        <th style="width: 6%;">DELETE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            fetchOrders();
+
+            function fetchOrders() {
+                $.ajax({
+                    url: '/admin_orders',
+                    type: 'GET',
+                    success: function (response) {
+                        populateTable(response);
+                    },
+                    error: function (error) {
+                        console.error("Error fetching orders:", error);
+                    }
+                });
+            }
+
+            function populateTable(orders) {
+                const tableBody = $('#ordersTable tbody');
+                tableBody.empty(); // Clear any existing rows
+
+                orders.forEach(order => {
+                    const row = `
+                        <tr>
+                            <td>${order.order_id}</td>
+                            <td>${order.date}</td>
+                            <td>${order.username}</td> <!-- Add this line -->
+                            <td>
+                                <button 
+                                    class="delete-btn" 
+                                    data-order-id="${order.order_id}" 
+                                    style="background-color: red; margin-left: 2px; border: none; padding: 6px; color: white; font-weight: bold;">
+                                    DELETE
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.append(row);
+                });
+
+                // Attach event listeners to delete buttons
+                $('.delete-btn').click(function () {
+                    const orderId = $(this).data('order-id');
+                    deleteOrder(orderId);
+                });
+            }
+
+            function deleteOrder(orderId) {
+                $.ajax({
+                    url: `/delete_order/${orderId}`,
+                    type: 'DELETE',
+                    success: function (response) {
+                        alert("Order deleted successfully!");
+                        fetchOrders(); // Refresh the table
+                    },
+                    error: function (error) {
+                        console.error("Error deleting order:", error);
+                        alert("Error deleting order.");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

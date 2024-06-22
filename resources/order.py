@@ -1,8 +1,8 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from db import db
-from models import OrderModel, OrderProductModel, ProductModel, PaymentModel
-from flask import render_template, request, json
+from models import OrderModel, OrderProductModel, ProductModel, PaymentModel, UserModel
+from flask import render_template, request, json, jsonify
 import datetime
 from schemas import ProductSchema, OrderSchema, PlainPaymentSchema, OrderProductSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
@@ -159,3 +159,25 @@ def checkout():
     order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
     order_id = order.order_id
     return render_template("checkout.html", order_id=order_id)
+
+# final
+@blp.route('/admin_orders', methods=['GET'])
+def get_orders():
+    orders = db.session.query(OrderModel, UserModel).join(UserModel, OrderModel.buyer_id == UserModel.user_id).all()
+    orders_list = [
+        {
+            'order_id': order.OrderModel.order_id,
+            'date': order.OrderModel.date.strftime("%Y-%m-%d"),
+            'username': order.UserModel.username
+        } for order in orders
+    ]
+    return jsonify(orders_list)
+
+@blp.route('/delete_order/<int:order_id>', methods=['DELETE'])
+def delete_order(order_id):
+    order = OrderModel.query.get(order_id)
+    if order:
+        db.session.delete(order)
+        db.session.commit()
+        return jsonify({'message': 'Order deleted successfully'}), 200
+    return jsonify({'message': 'Order not found'}), 404
