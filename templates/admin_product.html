@@ -69,7 +69,7 @@
                             <td>
                                 <button 
                                     class="delete-btn" 
-                                    data-user-id="${product.seller_id}" 
+                                    data-user-id="${product.cat_id}" 
                                     style="background-color: red; margin-left: 2px; border: none; padding: 6px; color: white; font-weight: bold;">
                                     DELETE
                                 </button>
@@ -93,7 +93,6 @@
                     success: function (response) {
                         alert("Product deleted successfully!");
                         fetchProducts(); // Refresh the table
-                        console.log(response)
                     },
                     error: function (error) {
                         console.error("Error deleting product:", error);
