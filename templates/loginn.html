@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Login and Signup Form</title>
+
+    <!-- Boxicons CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Playwrite+SK:wght@100..400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='style_loginn.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="{{url_for('static', filename='login.js')}}"></script>
+
+</head>
+
+<body>
+    <section class="container forms">
+
+        <div class="form login">
+            <div class="form-content">
+                <h1 class="projTitle">Ayadina <span>.com</span></h1>
+                <header>Login</header>
+                <form id="loginform">
+                    <div class="field input-field">
+                        <input type="email" id="email" name="email" placeholder="Email" class="input" required>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" id="password" name="password" placeholder="Password" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <div class="field button-field">
+                        <button id="submitBtn" type="submit">Login</button>
+                    </div>
+                </form>
+
+                <div class="form-link">
+                    <span>Don't have an account?</span>
+                    <button style="background: none; border: none;">
+                        <a href="/register">Register Now</a>
+                    </button>
+                </div>
+
+                <div class="error-message" id="wrong_password" style="display: none; border-left: 2px solid red; padding-left: 10px; margin-top: 10px;">
+                    <!-- This div will display error messages -->
+                </div>
+
+                <div class="success-message" id="login_success" style="display: none; border-left: 2px solid green; padding-left: 10px; margin-top: 10px;">
+                    <!-- This div will display success messages -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#submitBtn').click(function (e) {
+                    e.preventDefault();
+                    let user_data = $("#loginform").serializeArray();
+
+                    console.log(user_data);
+                    let dataPayload = {};
+                    user_data.forEach(function (item) {
+                        dataPayload[item.name] = item.value;
+                    });
+
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        url: '/login',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(dataPayload),
+                        success: function (response) {
+                            console.log('Login successful', response);
+                            $("#wrong_password").hide();
+                            $("#login_success").text("Login successful! Redirecting...").show();
+                            // Redirect after a short delay
+                            // setTimeout(function() {
+                            //     window.location.href = '/dashboard';
+                            // }, 2000);
+                        },
+                        error: function (response) {
+                            console.log(response);
+                            $("#login_success").hide();
+                            if (response.responseJSON && response.responseJSON.message) {
+                                $("#wrong_password").text(response.responseJSON.message).show();
+                            } else {
+                                $("#wrong_password").text("An error occurred. Please try again.").show();
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </section>
+</body>
+
+</html>

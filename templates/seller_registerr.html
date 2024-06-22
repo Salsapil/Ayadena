@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Responsive Registration Form</title>
+    <meta name="viewport" content="width=device-width,
+      initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('static', filename='style_registerr.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <form id="registrationForm">
+        <h1 style="text-align: center; margin-bottom: 20px;">Registration Form</h1>
+        <hr style="margin-bottom: 25px;">
+
+        <div class="form-row">
+            <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+            <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+        </div>
+
+        <div class="form-row">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+
+        <div class="form-row">
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"
+                required>
+        </div>
+
+        <div class="form-row">
+            <input type="tel" id="phone" name="phone" placeholder="Phone" required>
+            <input type="date" id="birthday" name="birthday" placeholder="Birthday" required>
+        </div>
+
+        <div class="form-row">
+            <input type="text" id="city" name="city" placeholder="City" required>
+            <input type="text" id="country" name="country" placeholder="Country" required>
+        </div>
+
+        <div class="form-row">
+            <input type="text" id="national_id" name="national_id" placeholder="National ID" required>
+            <input type="text" id="brand_name" name="brand_name" placeholder="Brand Name" required>
+        </div>
+
+        <div class="form-row">
+            <input type="text" id="bank_acc" name="bank_acc" placeholder="Bank Account" required>
+            <input type="text" id="postal_code" name="postal_code" placeholder="Zip Code" required>
+        </div>
+
+        <div class="form-row full">
+            <a href="D:\final graduation project\sohaila\login.html"><button>Register</button></a>
+        </div>
+
+        <div class="error-message" id="passwordMismatchAlert" style="display: none; border-left: 2px solid red;">
+            <!-- This div will display password mismatch error -->
+        </div>
+        <div class="error-message" id="alertContainer" style="display: none; border-left: 2px solid red;">
+            <span id="alertMessage"></span>
+        </div>
+        <div class="success-message" id="login_success"
+            style="display: none; border-left: 2px solid green; padding-left: 10px; margin-top: 10px;">
+            <!-- This div will display success messages -->
+        </div>
+    </form>
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let isValid = true;
+            let alertMessage = '';
+
+            const first_name = document.getElementById('first_name').value.trim();
+            const last_name = document.getElementById('last_name').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const birthday = document.getElementById('birthday').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirm_password = document.getElementById('confirm_password').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const national_id = document.getElementById('national_id').value.trim();
+            const brand_name = document.getElementById('brand_name').value.trim();
+            const bank_acc = document.getElementById('bank_acc').value.trim();
+            const postal_code = document.getElementById('postal_code').value.trim();
+
+            if (password !== confirm_password) {
+                isValid = false;
+                document.getElementById('passwordMismatchAlert').style.display = 'block';
+                document.getElementById('passwordMismatchAlert').innerHTML = 'Passwords do not match. Try again!';
+            } else {
+                document.getElementById('passwordMismatchAlert').style.display = 'none';
+            }
+
+            if (!first_name || !last_name || !username || !email || !birthday || !phone || !password || !confirm_password || !country || !city || !national_id || !brand_name || !bank_acc || !postal_code) {
+                isValid = false;
+                alertMessage = 'All fields are required.';
+            }
+
+            if (isValid == false) {
+                const alertContainer = document.getElementById('alertContainer');
+                const alertMessageDiv = document.getElementById('alertMessage');
+                alertMessageDiv.textContent = alertMessage;
+                alertContainer.style.display = alertMessage ? 'block' : 'none'; // Show only if there's an error message
+            }
+        });
+
+        // Backend (jQuery AJAX)
+        $(document).ready(function () {
+            $('#registrationForm').submit(function (e) {
+                e.preventDefault();
+                let user_data = $(this).serializeArray();
+
+                let dataPayload = {};
+                $.each(user_data, function (index, item) {
+                    dataPayload[item.name] = item.value;
+                });
+
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    url: '/register_seller',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataPayload),
+                    success: function (response) {
+                        console.log('Seller created successfully:', response);
+                        $("#wrong_password").hide();
+                        $("#login_success").text("User Created successfully! Redirecting...").show();
+                        // window.location.href = '/login';
+                    },
+                    error: function (error) {
+                        console.error('Error creating seller:', error);
+                        const alertContainer = document.getElementById('alertContainer');
+                        const alertMessageDiv = document.getElementById('alertMessage');
+                        alertMessageDiv.textContent = error.responseJSON.message;
+                        alertContainer.style.display = 'block';
+                        $("#login_success").hide();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

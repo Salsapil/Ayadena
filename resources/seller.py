@@ -16,7 +16,7 @@ blp = Blueprint("Sellers", "sellers", description="Operations on sellers")
 @blp.route("/register_seller")
 class SellerRegister(MethodView):
     def get(self):
-        return render_template('seller_register.html')
+        return render_template('seller_registerr.html')
     
     # @blp.arguments(PlainSellerSchema)
     def post(self):

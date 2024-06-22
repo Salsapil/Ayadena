@@ -18,7 +18,7 @@ blp = Blueprint("Users", "users", description="Operations on users")
 @blp.route("/register")
 class UserRegister(MethodView):
     def get(self):
-        return render_template('register.html')
+        return render_template('registerr.html')
 
     # @blp.arguments(PlainUserSchema)
     def post(self):
@@ -47,7 +47,7 @@ class UserRegister(MethodView):
 @blp.route("/login")
 class UserLogin(MethodView):
     def get(self):
-        return render_template('login.html')
+        return render_template('loginn.html')
 
     # @blp.arguments(PlainUserSchema) #load incoming data to user schema --> object
     def post(self):
