@@ -44,7 +44,7 @@
         <div class="form-row full">
             <button type="submit"><a style="color: white;text-decoration: none;" href="#">Register</a></button>
             <br>
-            <p style="text-align: center;"> Dont have an account? <a href="D:\final graduation project\sohaila\seller_register.html" style="font-size: medium; color: #0171d3; text-decoration: none;">Rigester As Seller</a></button></p>
+            <p style="text-align: center;"> Dont have an account? <a href="/register_seller" style="font-size: medium; color: #0171d3; text-decoration: none;">Rigester As Seller</a></button></p>
         </div>
 
         <div class="error-message" id="passwordMismatchAlert" style="display: none; border-left: 2px solid red;">
@@ -121,7 +121,7 @@
                         console.log('User created successfully:', response);
                         $("#wrong_password").hide();
                         $("#login_success").text("User Created successfully! Redirecting...").show();
-                        // window.location.href = '/login';
+                        window.location.href = '/login';
                     },
                     error: function (error) {
                         console.error('Error creating user:', error);

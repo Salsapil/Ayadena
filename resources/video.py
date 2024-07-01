@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask import request, render_template
 from db import db
 from models import VideoModel
 from schemas import PlainVideoSchema, VideoSchema
@@ -11,8 +12,9 @@ blp = Blueprint("Videoes", "videos", description="Operations on Admins")
 
 @blp.route("/video")
 class VideoList(MethodView):
-    @blp.response(200, PlainVideoSchema(many=True))
+    # @blp.response(200, PlainVideoSchema(many=True))
     def get(self):
+        course_id = request.get()
         return VideoModel.query.all()
 
     @blp.arguments(VideoSchema)
@@ -66,3 +68,20 @@ class Video(MethodView):
     #             abort(400, message="Update failed due to integrity constraint violation.")
     #     else:
     #         abort(404, message="Product not found.")
+
+@blp.route('/videos/<int:category_id>', methods=['GET'])
+def get_videos_by_category():
+    data = request.get_json()
+
+    category_id = data['category_id']
+    video = VideoModel.query.filter_by(category_id=category_id).all()
+    
+    return render_template("videos.html", video=video)
+
+@blp.route("/pottery_course", methods=["GET"])
+def sub():
+    return render_template("pottery_course.html")
+
+@blp.route("/macrame_course", methods=["GET"])
+def sub():
+    return render_template("macrame_course.html")

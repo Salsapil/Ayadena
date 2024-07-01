@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Responsive Video Playlist Tutorial</title>
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{{url_for('static', filename='pottery_course.css')}}">
+
+</head>
+<body>
+   
+<div class="container">
+
+   <div class="main-video-container">
+      <video src="{{url_for('static', filename='/videos/vid-1.mp4')}}" loop controls class="main-video"></video>
+      <h3 class="main-vid-title">1- كل ما تحتاجه لبدء صناعة الفخار</h3>
+   </div>
+
+   <div class="video-list-container">
+
+      <div class="list active">
+         <video src="{{url_for('static', filename='/videos/vid-1.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">1- كل ما تحتاجه لبدء صناعة الفخار</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vid-2.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">2- طريقة عجن طين الفخار</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vid-4.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">3- طريقة توسيط الطين على العجلة</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vid-5.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">4- رفع جدران طين الفخار على العجلة</h3>
+      </div>
+
+   </div>
+   <div>
+      <h2 style="padding-top: 10px; color:brown">Description:</h2>
+      <p style="padding-top: 10px; color:black">Pottery courses offer people the opportunity to learn the art of creating ceramic objects through<br> various techniques and processes. These courses typically cover the fundamentals of working with clay, including hand-building <br> techniques such as pinching, coiling, and slab construction, as well as wheel-throwing techniques for creating symmetrical forms.<br>
+      In a pottery course, people may learn about different types of clay and glazes, as well as the firing and finishing processes involved in creating ceramics. They may also explore surface decoration techniques such as carving, stamping, and glazing to add texture and color to their pieces.</p>
+      <br><br>
+      <h2 style="padding-top: 10px; color:brown" dir="rtl">وصف:</h2>
+      <p style="padding-top: 10px; color:black">توفر دورات صناعة الفخار للناس الفرصة لتعلم فن صنع الأشياء الخزفية من خلالها
+         تقنيات وعمليات مختلفة. تغطي هذه الدورات عادةً أساسيات العمل بالطين، بما في ذلك البناء اليدوي
+         تقنيات مثل القرص، واللف، وبناء الألواح، بالإضافة إلى تقنيات رمي ​​العجلات لإنشاء أشكال متماثلة.
+         في دورة الفخار، يمكن للناس أن يتعلموا عن أنواع مختلفة من الطين والزجاج، فضلا عن عمليات الحرق والتشطيب المشاركة في صنع السيراميك. يمكنهم أيضًا استكشاف تقنيات تزيين الأسطح مثل النحت والختم والتزجيج لإضافة الملمس واللون إلى قطعهم.</p>
+   </div>
+
+</div>
+
+<!-- JavaScript file link  -->
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+      let videoList = document.querySelectorAll('.video-list-container .list');
+
+      videoList.forEach(vid => {
+         vid.onclick = () => {
+            videoList.forEach(remove => { remove.classList.remove('active') });
+            vid.classList.add('active');
+            let src = vid.querySelector('.list-video').src;
+            let title = vid.querySelector('.list-title').innerHTML;
+            document.querySelector('.main-video-container .main-video').src = src;
+            document.querySelector('.main-video-container .main-video').play();
+            document.querySelector('.main-video-container .main-vid-title').innerHTML = title;
+         };
+      });
+   });
+</script>
+</body>
+</html>

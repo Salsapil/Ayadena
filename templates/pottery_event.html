@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pottery Shop</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='pottery_event.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <header>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='/images/heyy.png') }}" alt="Logo"> Ayadena
+        </a>
+        <ul class="navlist">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/about_us">About</a></li>
+            <li><a href="/category">Shop</a></li>
+            <div class="nav-right">
+                <a href="#"><i class='bx bx-user'></i></a>
+                <a href="/add_to_cart"><i class='bx bxs-cart-alt'></i></a>
+            </div>
+        </ul>
+    </header>
+
+    <div class="main-container" style="width: 75%; height: auto; margin: auto;">
+        <div class="se1">
+            <img src="{{url_for('static', filename='imagess/OXMfj-.gif')}}"
+                style="margin-top: 30px; width: 100%; height: 500px;" alt="">
+        </div>
+
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <div class="carousel-caption d-none d-md-block" style="text-align: center; margin-bottom: 20px;">
+                        <h5 style="font-size: 25px;"><img
+                                src="{{url_for('static', filename='img_event/pottery (1).png')}}" style="width: 40px;"
+                                alt=""> History
+                            of Pottery</h5>
+                        <p style="font-size: 18px;">Egyptian pottery, dating back to around 4,000 BCE, played a crucial
+                            role in the daily and ceremonial life of ancient Egypt. Initially crafted from Nile silt,
+                            these early pots were hand-shaped and fired in simple kilns. As techniques advanced, potters
+                            began using the wheel, allowing for more uniform and intricate designs. Egyptian pottery
+                            ranged from utilitarian wares, such as storage jars and cooking pots, to finely decorated
+                            ceremonial pieces and funerary items.</p>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <div class="carousel-caption d-none d-md-block" style="margin-bottom: 50px;">
+                        <h5 style="font-size: 25px;">We teach pottery to people of all ages!</h5>
+                        <p style="font-size: 18px;">Take a closer look at our courses<br>
+                            For Children <img src="{{url_for('static', filename='img_event/art-and-design.png')}}"
+                                alt="" style="width: 60px;">
+                            For Adults <img src="{{url_for('static', filename='img_event/clay-crafting.png')}}"
+                                style="width: 40px;" alt="">
+                            For Families <img src="{{url_for('static', filename='/imagess/pottery.png')}}"
+                                style="width: 40px;" alt=""><br>
+                            Wheel Throwing, Hand Building, Pottery Painting
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-caption d-none d-md-block" style="margin-bottom: 70px;">
+                        <h5 style="font-size: 25px;">How to Start Pottery</h5>
+                        <p style="font-size: 18px;"><span style="color: rgb(84, 66, 38); font-size: 40px;">1</span> Come
+                            <span style="color: rgb(84, 66, 38); font-size: 40px;">2</span> Make <span
+                                style="color: rgb(84, 66, 38); font-size: 40px;">3</span> Paint <span
+                                style="color: rgb(84, 66, 38); font-size: 40px;">4</span> Fair
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="container">
+            <div id="filterable-cards" class="products" style="background-color: #FAEED1; width: 130%;">
+            </div>
+            <h4 id="h4" style="border-radius: 20%;">Our Artists</h4>
+            <div class="se3">
+                <div class="item">
+                    <div class="img-con">
+                        <img src="{{url_for('static', filename='img_event/mariam.jfif')}}" alt="">
+                    </div>
+                    <p style="background-color: #803D3B;">Mariam</p>
+                </div>
+                <div class="item">
+                    <div class="img-con">
+                        <img src="{{url_for('static', filename='img_event/traditional-egyptian-potter-aisha-abdelhamid.jpg')}}"
+                            alt="">
+                    </div>
+                    <p style="background-color: #803D3B;">Abdelhamed</p>
+                </div>
+                <div class="item">
+                    <div class="img-con">
+                        <img src="{{url_for('static', filename='img_event/cairo-egypt-24th-july-2016-an-egyptian-man-uses-a-pottery-wheel-to-GEAG76.jpg')}}"
+                            alt="">
+                    </div>
+                    <p style="background-color: #803D3B;">Uncle Harbi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{url_for('static', filename='home.js')}}"></script>
+
+    <script>
+        $(document).ready(() => {
+            let products = {{ product | tojson
+        }};
+        console.log(products)
+        products.forEach(element => {
+            $("#filterable-cards").append(
+                `
+                        <div class="product" style="background-color: #803D3B;">
+                        <img src="/static/imagess/${element["image"]}" alt="World Pottery Day Mug">
+                        <h3 style="font-family: caveat;">${element["name"]}</h3>
+                        <p>${element["price"]} LE.</p>
+                        <button class="boo add-to-cart" id="${element.product_id}"><a href="#">Add to cart</a><i class='bx bxs-cart-alt'> </i></button>
+                        </div>
+                        `
+            )
+        })
+        });
+        $(document).on("click", "button.add-to-cart", function () {
+            const productId = $(this).attr("id");
+            console.log(productId);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                url: '/add_to_cart',
+                data: JSON.stringify({ product_id: productId }),
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    alert("Added Successfully!")
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

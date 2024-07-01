@@ -77,6 +77,8 @@ class PlainCourseSchema(Schema):
     name = fields.Str()
     description = fields.Str()
     duration = fields.Str()
+    img = fields.Str()
+    route = fields.Str()
 
 #payment
 class PlainPaymentSchema(Schema):

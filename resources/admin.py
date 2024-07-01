@@ -55,3 +55,7 @@ def checkout():
 @blp.route("/admin_seller", methods=["GET"])
 def checkout():
     return render_template("admin_seller.html")
+
+@blp.route("/admin_add_course", methods=["GET"])
+def checkout():
+    return render_template("admin_add_course.html")

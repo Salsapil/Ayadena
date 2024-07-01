@@ -2,8 +2,8 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask import request, jsonify
 from db import db
-from flask import render_template
-from models import ProductModel, SellerModel
+from flask import render_template, session
+from models import ProductModel, SellerModel, ProductCategoryModel
 from schemas import ProductSchema, PlainProductSchema, ProductUpdateSchema, PlainSellerSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
@@ -13,7 +13,8 @@ blp = Blueprint("Products", __name__, description="Operations on users")
 class ProductList(MethodView):
     # @blp.response(200, PlainProductSchema(many=True))
     def get(self):
-        seller_id = 3
+        # seller_id = 3
+        seller_id = session.get('identity_id')
         seller_data = SellerModel.query.get_or_404(seller_id)
         seller_data = PlainSellerSchema().dump(seller_data)
         product = ProductModel.query.filter_by(seller_id=seller_id).all()
@@ -26,7 +27,7 @@ class ProductList(MethodView):
         product_data = request.get_json()
         print(product_data)
         product = ProductModel(
-            seller_id = 3,
+            seller_id = session.get('identity_id'),
             cat_id = product_data.get("cat_id"),
             name = product_data.get("name"),
             description = product_data.get("description"),
@@ -41,7 +42,7 @@ class ProductList(MethodView):
         except SQLAlchemyError:
             abort(500, message="An error occurred creating the product.")
 
-        return product
+        return jsonify(product_data)
 
 
 @blp.route("/delete_product", methods=["DELETE"])
@@ -77,14 +78,18 @@ class ProductUpdate(MethodView):
                 product.price = product_data.get("price", product.price)
                 product.amount = product_data.get("amount", product.amount)
                 product.image = product_data.get("image", product.image)
-                # add product.seller_id
 
             try:
                 db.session.commit()
-                return product
             except IntegrityError:
                 db.session.rollback()
                 abort(400, message="Update failed due to integrity constraint violation.")
+
+            # Convert the updated product instance to a dictionary using the schema
+            product_schema = ProductSchema()
+            updated_product_data = product_schema.dump(product)
+
+            return jsonify(updated_product_data), 200  # Return the updated product data with a 200 OK status
         else:
             abort(404, message="Product not found.")
 
@@ -110,3 +115,24 @@ def delete_product(product_id):
         db.session.commit()
         return jsonify({'message': 'product deleted successfully'}), 200
     return jsonify({'message': 'product not found'}), 404
+
+
+@blp.route("/pottery_event")
+class ProductList(MethodView):
+    # @blp.response(200, PlainProductSchema(many=True))
+    def get(self):
+        cat_id = 3
+        event_id = 1
+        product = ProductModel.query.filter_by(cat_id=cat_id, event_id=event_id).all()
+        product = ProductSchema().dump(product, many=True)
+        return render_template('pottery_event.html', product=product)
+
+@blp.route("/macrame_event")
+class ProductList(MethodView):
+    # @blp.response(200, PlainProductSchema(many=True))
+    def get(self):
+        cat_id = 4
+        event_id = 2
+        product = ProductModel.query.filter_by(cat_id=cat_id, event_id=event_id).all()
+        product = ProductSchema().dump(product, many=True)
+        return render_template('macrame_event.html', product=product)

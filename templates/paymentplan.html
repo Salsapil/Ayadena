@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing and Payment Form</title>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='paymentplan.css')}}" defer>
+</head>
+
+<body>
+
+    <!-- <header>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='/images/heyy.png') }}" alt="Logo"> Ayadena
+        </a>
+        <ul class="navlist">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/about_us">About</a></li>
+            <li><a href="/category">Shop</a></li>
+            <div class="nav-right">
+                <a href="#"><i class='bx bx-user'></i></a>
+                <a href="/add_to_cart"><i class='bx bxs-cart-alt'></i></a>
+            </div>
+        </ul>
+    </header> -->
+    <div class="container">
+
+        <!-- Payment Form -->
+        <form action="" class="payment-form" id="payment-form">
+
+            <div class="col">
+
+                <h3 class="title">payment</h3>
+
+                <div class="inputBox">
+                    <span>cards accepted :</span>
+                    <img src="{{url_for('static', filename='imagess/card_img.png')}}" alt="">
+                </div>
+                <div class="inputBox">
+                    <span>Name on card :</span>
+                    <input type="text" placeholder="Cardholder Name" required>
+                </div>
+                <div class="inputBox">
+                    <span>credit card number :</span>
+                    <input type="text" placeholder="1111-2222-3333-4444" pattern="\d{16}" maxlength="16" required>
+                </div>
+                <div class="inputBox">
+                    <span>exp month :</span>
+                    <input type="text" placeholder="11" required>
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>exp year :</span>
+                        <input type="number" placeholder="24" min="24" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>CVV :</span>
+                        <input type="text" placeholder="123" pattern="\d{3}" maxlength="3" required>
+                    </div>
+                </div>
+
+                <input id="submit-btn" type="submit" value="proceed to checkout" class="submit-btn"
+                    style="margin-bottom: 7px;">
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+        // JavaScript Validation
+        // document.getElementById('billing-form').addEventListener('submit', function (event) {
+        //     if (!event.target.checkValidity()) {
+        //         event.preventDefault();
+        //         alert('Please fill out the billing form correctly.');
+        //     }
+        // });
+
+        // document.getElementById('payment-form').addEventListener('submit', function (event) {
+        //     if (!event.target.checkValidity()) {
+        //         event.preventDefault();
+        //         alert('Please fill out the payment form correctly.');
+        //     }
+        // });
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("submit-btn").addEventListener("click", function (event) {
+                event.preventDefault();
+                // Alert after 1000 seconds
+                setTimeout(function () {
+                    alert("Payment done successfully!");
+                    window.location.href = "/course";
+                }, 6000);
+
+            });
+        });
+    </script>
+
+</body>
+
+</html>

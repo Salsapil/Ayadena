@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cart</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='cartt.css')}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+  <header>
+    <a href="/" class="logo">
+        <img src="{{ url_for('static', filename='/images/heyy.png') }}" alt="Logo"> Ayadena
+    </a>
+    <ul class="navlist">
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/about_us">About</a></li>
+        <li><a href="/category">Shop</a></li>
+        <div class="nav-right">
+            <a href="#"><i class='bx bx-user'></i></a>
+            <a href="/add_to_cart"><i class='bx bxs-cart-alt'></i></a>
+        </div>
+    </ul>
+</header>
+
+  <div class="wrap-cf">
+    <h1 class="projTitle">Ayadina <span>.com</span> Shopping Cart</h1>
+    <div class="heading-cf">
+      <h1>My Cart</h1>
+      <a href="/category" class="continue">Continue Shopping</a>
+    </div>
+    <div class="cart">
+      <ul class="cartWrap" id="list">
+      </ul>
+    </div>
+
+    <div class="subtotal">
+      <ul>
+        <li class="totalRow" style="text-align: left;"><span class="label">Shipping</span><span class="value">$50</span></li>
+        <li class="totalRowfinal"><span class="label">Total</span><span class="value" id="totalPrice"></span></li>
+        <li class="totalRow" style="list-style-type: none;"><a href="/checkout" class="btn-continue">Checkout</a></li>
+      </ul>
+    </div>
+  </div>
+  <script src="{{url_for('static', filename='home.js')}}"></script>
+
+  <script>
+    $(document).ready(() => {
+      let orders = {{ order | tojson
+    }};
+    let totalPrice = 0;
+
+    function calculateTotalPrice() {
+      totalPrice = 0;
+      orders.forEach(product => {
+        totalPrice += parseFloat(product.price);
+      });
+      totalPrice += 50;
+      $("#totalPrice").text(`${totalPrice} L.E`);
+    }
+    console.log(orders);
+
+    orders.forEach(product => {
+      $("#list").append(
+        `
+                <li class="items" data-product-id="${product.product_id}">
+                    <div class="infoWrap">
+                        <div class="cartSection">
+                            <img src="/static/imagess/${product.image}" alt="" class="itemImg" />
+                            <p class="itemNumber">#QUE-${product.product_id}</p>
+                            <h3>${product.name}</h3>
+                            <h4>${product.description}</h4>
+                        </div>
+                        <div class="prodTotal-cartSection">
+                            <p id="p1">${product.price} L.E</p>
+                        </div>
+                        <div class="cartSection removeWrap">
+                            <a href="#" class="remove">x</a>
+                        </div>
+                    </div>
+                </li>
+                `
+      );
+    });
+    calculateTotalPrice();
+    $(".remove").on('click', function (e) {
+      let product_id = $(this).closest('li').data('product-id');
+      console.log('Removing product with ID:', product_id);
+
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        url: '/remove_from_cart',
+        type: 'DELETE',
+        contentType: 'application/json',
+        data: JSON.stringify({ product_id: product_id }),
+        success: function (response) {
+          console.log(response);
+
+          orders = orders.filter(product => product.product_id !== product_id);
+          console.log('Updated Orders:', orders);
+
+          $(`li[data-product-id=${product_id}]`).remove();
+          calculateTotalPrice();
+        },
+        error: function (error) {
+          console.error('Error removing product:', error);
+        }
+      });
+      
+    });
+    });
+  </script>
+</body>

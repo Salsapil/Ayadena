@@ -52,7 +52,7 @@
         </div>
 
         <div class="form-row full">
-            <a href="D:\final graduation project\sohaila\login.html"><button>Register</button></a>
+            <a href="/login"><button>Register</button></a>
         </div>
 
         <div class="error-message" id="passwordMismatchAlert" style="display: none; border-left: 2px solid red;">
@@ -133,7 +133,7 @@
                         console.log('Seller created successfully:', response);
                         $("#wrong_password").hide();
                         $("#login_success").text("User Created successfully! Redirecting...").show();
-                        // window.location.href = '/login';
+                        window.location.href = '/login';
                     },
                     error: function (error) {
                         console.error('Error creating seller:', error);

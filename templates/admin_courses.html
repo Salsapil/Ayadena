@@ -1,28 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='admin.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <div class="sidebar">
-            <h2>Manage Courses</h2>
+            <h2>Delete Courses</h2>
             <ul>
                 <li><a href="/register_admin">Dashboard</a></li>
                 <li><a href="/admin_user">Manage Users</a></li>
                 <li><a href="/admin_seller">Manage Sellers</a></li>
-                <li><a href="/admin_courses">Manage Courses</a></li>
+                <li><a href="/admin_courses">DELETE Courses</a></li>
+                <li><a href="/admin_add_course">ADD Courses</a></li>
                 <li><a href="/admin_order">Manage Orders</a></li>
                 <li><a href="/admin_product">Manage Products</a></li>
             </ul>
         </div>
         <div class="main-content">
-            <h1>Dashboard</h1>
-            <p>Welcome to the Dashboard.</p>
+            <h1>Courses</h1>
+            <table id="coursesTable">
+                <thead>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Name</th>
+                        <th>Duration</th>
+                        <th style="width: 6%;">DELETE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
+            </table>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            fetchCourses();
+    
+            function fetchCourses() {
+                $.ajax({
+                    url: '/admin_course',
+                    type: 'GET',
+                    success: function (response) {
+                        populateTable(response);
+                    },
+                    error: function (error) {
+                        console.error("Error fetching courses:", error);
+                    }
+                });
+            }
+    
+            function populateTable(courses) {
+                const tableBody = $('#coursesTable tbody');
+                tableBody.empty(); // Clear any existing rows
+    
+                courses.forEach(course => {
+                    const row = `
+                        <tr>
+                            <td>${course.course_id}</td>
+                            <td>${course.name}</td>
+                            <td>${course.duration}</td>
+                            <td>
+                                <button 
+                                    class="delete-btn" 
+                                    data-course-id="${course.course_id}" 
+                                    style="background-color: red; margin-left: 2px; border: none; padding: 6px; color: white; font-weight: bold;">
+                                    DELETE
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.append(row);
+                });
+    
+                // Attach event listeners to delete buttons
+                $('.delete-btn').click(function () {
+                    const courseId = $(this).data('course-id');
+                    deleteCourse(courseId);
+                });
+            }
+    
+            function deleteCourse(courseId) {
+                $.ajax({
+                    url: `/delete_course/${courseId}`,
+                    type: 'DELETE',
+                    success: function (response) {
+                        alert("Course deleted successfully!");
+                        fetchCourses(); // Refresh the table
+                    },
+                    error: function (error) {
+                        console.error("Error deleting course:", error);
+                        alert("Error deleting course.");
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
+
 </html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing and Payment Form</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='payment.css')}}" defer>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Billing Address Form -->
+        <form action="" class="billing-form" id="orderPaymentForm">
+
+            <div class="col">
+
+                <h3 class="title">billing address</h3>
+
+                <div class="inputBox">
+                    <span>Full Name :</span>
+                    <input type="text" id="full_name" name="full_name" placeholder="Full Name">
+                </div>
+                <div class="inputBox">
+                    <span>Block number :</span>
+                    <input type="text" id="block_no" name="block_no" placeholder="Block Number">
+                </div>
+                <div class="inputBox">
+                    <span>Street :</span>
+                    <input type="text" id="street" name="street" placeholder="Street">
+                </div>
+                <div class="inputBox">
+                    <span>City :</span>
+                    <input type="text" id="city" name="city" placeholder="City">
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>Country :</span>
+                        <input type="text" id="state" name="state" placeholder="Country">
+                    </div>
+                    <div class="inputBox">
+                        <span>zip code :</span>
+                        <input type="text" id="zip_code" name="zip_code" placeholder="Postal Code" maxlength="5">
+                    </div>
+                </div>
+                <input type="submit" value=" " class="submit-btn1">
+
+            </div>
+
+        </form>
+
+        <!-- Payment Form -->
+        <form action="" class="payment-form" id="payment">
+
+            <div class="col">
+
+                <h3 class="title">payment</h3>
+
+                <div class="inputBox">
+                    <span>cards accepted :</span>
+                    <img src="{{url_for('static', filename='imagess/card_img.png')}}" alt="">
+                </div>
+                <div class="inputBox">
+                    <span>Name on card :</span>
+                    <input type="text" id="card_name" name="card_name" placeholder="Cardholder Name" required>
+                </div>
+                <div class="inputBox">
+                    <span>Credit card number :</span>
+                    <input type="text" id="card_number" name="card_number" placeholder="Card Number" maxlength="17" required>
+                </div>
+                <div class="inputBox">
+                    <span>Exp month :</span>
+                    <input type="text" id="exp_month" name="exp_month" placeholder="11" required>
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>exp year :</span>
+                        <input type="number" id="exp_year" name="exp_year" placeholder="22" min="24" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>CVV :</span>
+                        <input type="text" id="cvv" name="cvv" placeholder="123" pattern="\d{3}" maxlength="3" required>
+                    </div>
+                </div>
+
+                <input id="submitBtn" type="submit" value="proceed to checkout" class="submit-btn">
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <script>
+        // JavaScript Validation
+        $(document).ready(function () {
+            $('#submitBtn').click(function (e) {
+                e.preventDefault();
+
+                // Serialize data from both forms
+                let address = $("#orderPaymentForm").serializeArray();
+                let payment = $("#payment").serializeArray();
+
+                let orderPayload = {};
+                address.forEach(function (item) {
+                    orderPayload[item.name] = item.value;
+                });
+
+                let paymentPayload = {};
+                payment.forEach(function (element) {
+                    paymentPayload[element.name] = element.value;
+                });
+
+                console.log(orderPayload);
+                console.log(paymentPayload);
+
+                // First AJAX call to update order
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    url: '/update_order',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(orderPayload),
+                    success: function (response) {
+                        console.log('Order updated successfully:', response);
+
+                        // Second AJAX call to insert payment
+                        $.ajax({
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            url: '/insert_payment',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(paymentPayload),
+                            success: function (response) {
+                                console.log('Payment done successfully:', response);
+                                alert("Order Confirmed!")
+                                window.location.href = '/add_to_cart';
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Payment failed:', xhr.responseText);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Order update failed:', xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

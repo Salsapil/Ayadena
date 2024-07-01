@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>course</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{{url_for('static', filename='course.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Playwrite+SK:wght@100..400&display=swap"
+        rel="stylesheet">
+    <script src="{{url_for('static', filename='course.js')}}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+    <style>
+        body {
+            font-family: "Frank Ruhl Libre", serif;
+            font-size: 18px;
+            background-color: white !important;
+        }
+    </style>
+</head>
+
+<body style="overflow: hidden;">
+    <header>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='/images/heyy.png') }}" alt="Logo"> Ayadena
+        </a>
+        <ul class="navlist">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/about_us">About</a></li>
+            <li><a href="/category">Shop</a></li>
+            <div class="nav-right">
+                <a href="#"><i class='bx bx-user'></i></a>
+                <a href="/add_to_cart"><i class='bx bxs-cart-alt'></i></a>
+            </div>
+        </ul>
+    </header>
+    <div class="container">
+
+        <h1 class="heading">Our popular courses </h1>
+
+        <!-- course section  -->
+
+        <section class="course">
+
+            <!-- <div class="box">
+                <img src="{{url_for('static', filename='imagess/jewellery.jpeg')}}" alt="">
+                <div class="stars">
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"> </i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="far fa-star" style="color: rgb(202, 202, 202);"></i>
+                </div>
+                <h3 style="color:black;"> Handmade Accessories</h3>
+                <p>You will learn how to use raw materials and different tools to come up with exquisite outcomes such
+                    as necklaces, key chains, and more!</p>
+                <a href="#" class="btn">learn more</a>
+                <div class="icons">
+                    <p> <i class="far fa-clock" style="color: rgb(209, 8, 8);"></i> 3h 8m </p>
+                    <p> <i class="far fa-calendar" style="color: rgb(209, 8, 8);"></i> 6 months </p>
+                    <p> <i class="fas fa-book" style="color: rgb(209, 8, 8);"></i> 32 lessons </p>
+                </div>
+            </div> -->
+
+            <!-- <div class="box">
+                <img src="{{url_for('static', filename='imagess/resin.webp')}}" alt="">
+                <div class="stars">
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="far fa-star" style="color: rgb(202, 202, 202);"></i>
+                </div>
+                <h3 style="color: black;">Resin Art</h3>
+                <p>This training course is prepared for you if you are a beginner or intermediate to help you learn
+                    about the secrets of resin art and its general tips.</p>
+                <a href="#" class="btn">learn more</a>
+                <div class="icons">
+                    <p> <i class="far fa-clock" style="color: rgb(209, 8, 8);"></i> 3h 39m </p>
+                    <p> <i class="far fa-calendar" style="color: rgb(209, 8, 8);"></i> 6 months </p>
+                    <p> <i class="fas fa-book" style="color: rgb(209, 8, 8);"></i> 30 lessons </p>
+                </div>
+            </div>
+
+            <div class="box">
+                <img src="{{url_for('static', filename='imagess/candle.webp')}}" alt="">
+                <div class="stars">
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="far fa-star" style="color: rgb(202, 202, 202);"></i>
+                </div>
+                <h3 style="color: black;">Candle Making</h3>
+                <p>Ready to explore the art of candle making? In this course, you will learn everything needed from
+                    different types of candles and materials used.</p>
+                <a href="#" class="btn">learn more</a>
+                <div class="icons">
+                    <p> <i class="far fa-clock" style="color: rgb(209, 8, 8);"></i> 2h 30m </p>
+                    <p> <i class="far fa-calendar" style="color: rgb(209, 8, 8);"></i> 6 months </p>
+                    <p> <i class="fas fa-book" style="color: rgb(209, 8, 8);"></i> 25 lessons </p>
+                </div>
+            </div>
+
+            <div class="box">
+                <img src="{{url_for('static', filename='imagess/pottery.jpeg')}}" alt="">
+                <div class="stars">
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="far fa-star" style="color: rgb(202, 202, 202);"></i>
+                </div>
+                <h3 style="color: black;">Pottery Making</h3>
+                <p>This course will learn you activity or skill of making clay objects by hand. pottery is a valuable
+                    archaeological artifact .</p>
+                <a href="/pottery_course" class="btn">learn more</a>
+                <div class="icons">
+                    <p> <i class="far fa-clock" style="color: rgb(209, 8, 8);"></i> 2 hours </p>
+                    <p> <i class="far fa-calendar" style="color: rgb(209, 8, 8);"></i> 6 months </p>
+                    <p> <i class="fas fa-book" style="color: rgb(209, 8, 8);"></i> 12 lessons </p>
+                </div>
+            </div>
+
+            <div class="box">
+                <img src="{{url_for('static', filename='imagess/acrylic.jpeg')}}" alt="">
+                <div class="stars">
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                    <i class="far fa-star" style="color: rgb(202, 202, 202);"></i>
+                </div>
+                <h3 style="color: black;">Acrylic Drawing Secrets</h3>
+                <p>Explore the world of acrylics in our detailed course, where we delve into its history and the various
+                    types of acrylic paints for creating stunning effects.</p>
+                <a href="#" class="btn">learn more</a>
+                <div class="icons">
+                    <p> <i class="far fa-clock" style="color: rgb(209, 8, 8);"></i> 2 hours </p>
+                    <p> <i class="far fa-calendar" style="color: rgb(209, 8, 8);"></i> 6 months </p>
+                    <p> <i class="fas fa-book" style="color: rgb(209, 8, 8);"></i> 18 lessons </p>
+                </div> -->
+            <!-- </div> -->
+
+        </section>
+        <script src="{{url_for('static', filename='home.js')}}"></script>
+        <script>
+            $(document).ready(() => {
+                let courses = {{ course | tojson
+            }};
+            console.log(courses)
+            courses.forEach(element => {
+                $(".course").append(
+                    `
+                    <div class="box">
+                        <img src="/static/imagess/${element["img"]}" alt="">
+                        <div class="stars">
+                        <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                        <i class="fas fa-star" style="color: rgb(240, 215, 111);"> </i>
+                        <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                        <i class="fas fa-star" style="color: rgb(240, 215, 111);"></i>
+                        <i class="far fa-star" style="color: rgb(202, 202, 202);"></i>
+                    </div>
+                    <h3 style="color:black;">${element["name"]}</h3>
+                    <p>${element["description"]}</p>
+                    <a href="${element["route"]}" class="btn">learn more</a>
+                    <div class="icons">
+                        <p> <i class="far fa-clock" style="color: rgb(209, 8, 8);"></i> 1h 55m </p>
+                        <p> <i class="far fa-calendar" style="color: rgb(209, 8, 8);"></i> ${element["duration"]} </p>
+                        <p> <i class="fas fa-book" style="color: rgb(209, 8, 8);"></i> 16 lessons </p>
+                    </div>
+                    
+                    `
+                )
+            });
+    });
+        </script>
+</body>
+
+</html>

@@ -6,7 +6,7 @@ from models import SellerModel
 from models import UserModel, AdminModel
 from schemas import PlainUserSchema, UserSchema
 from flask_jwt_extended import create_access_token
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
 
 
 blp = Blueprint("Users", "users", description="Operations on users")
@@ -52,23 +52,31 @@ class UserLogin(MethodView):
     # @blp.arguments(PlainUserSchema) #load incoming data to user schema --> object
     def post(self):
         user_data = request.get_json()
+        
+        # Check if the user is an admin
         admin = AdminModel.query.filter(
             AdminModel.email == user_data["email"]
         ).first()
         if admin and pbkdf2_sha256.verify(user_data["password"], admin.password):
-            access_token = create_access_token(identity=admin.admin_id)
-            return {"access_token": access_token, "email": admin.email}, 200
+            session['identity_id'] = admin.admin_id
+            session['user_type'] = 'admin'
+            return {"email": admin.email, "user_type": "admin"}, 200
 
+        # Check if the user is a regular user
         user = UserModel.query.filter(
-            UserModel.email == user_data["email"] #use .get
+            UserModel.email == user_data["email"]
         ).first()
         if user and pbkdf2_sha256.verify(user_data["password"], user.password):
-            access_token = create_access_token(identity=user.user_id)
-            if (SellerModel.query.filter_by(user_id=user.user_id).first()) is not None:
-                return {"access_token": access_token, "username": user.username, "seller": "{} is a seller".format(user.username)}, 200 #user
-            return {"access_token": access_token, "username": user.username}, 200
+            session['identity_id'] = user.user_id
+            if SellerModel.query.filter_by(user_id=user.user_id).first():
+                session['user_type'] = 'seller'
+                return {"username": user.username, "user_type": "seller"}, 200
+            session['user_type'] = 'user'
+            return {"username": user.username, "user_type": "user"}, 200
 
+        # If no valid credentials are found, abort with 401
         abort(401, message="Invalid credentials.")
+        
 
 # @blp.route("/user")
 # class UserList(MethodView):

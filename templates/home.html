@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayadina</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+
+    <!-- box icon link -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- header-->
+    <header>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='/images/heyy.png') }}" alt="Logo"> Ayadena
+        </a>
+        <ul class="navlist">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/about_us">About</a></li>
+            <li><a href="/category">Shop</a></li>
+            <div class="nav-right">
+                <a href="#"><i class='bx bx-user'></i></a>
+                <a href="/add_to_cart"><i class='bx bxs-cart-alt'></i></a>
+            </div>
+        </ul>
+    </header>
+    <div class="blurred-bg-container">
+        <div class="content">
+            <div class="text">
+                <p style="margin-top: 50px; font-size: 25px ;font-weight: bold; margin-left: 50px;">CREATIVITY <BR> IS
+                    ONE STEP AWAY!</p>
+                <p style="padding-top: 5px; margin-left: 50px;">Creating smiles and spreading happnies for generations.
+                </p>
+
+            </div>
+
+            <div class="blur"></div>
+        </div>
+    </div>
+
+    <section class="features">
+        <div style="border: none">
+            <div style="background-color: black; margin-top: 10%; width: 80%"></div>
+        </div>
+        <div style="border: none">
+            <h3 style="margin-top:4.5%; margin-left: -45%;">Our Amazing Features</h3>
+        </div>
+        </div>
+        <div style="border-left: none; border-bottom: none;">
+            <h3>10k Satisfied Customers</h3>
+            <p>Each item is crafted with the utmost care.</p>
+        </div>
+        <div style=" border-bottom: none;">
+            <h3>Expert Customer Service</h3>
+            <p>We are here to help with any inquiries.</p>
+        </div>
+        <div style="border-right: none; border-bottom: none;">
+            <h3>Fast Shipping</h3>
+            <p>Receive your orders quickly.</p>
+        </div>
+    </section>
+    <div class="welcome">
+        <div class="image">
+            <img src="{{ url_for('static', filename='images/img1.jpeg') }}" alt="Cindy collection">
+        </div>
+        <div class="boho">
+            <p>Welcome to Ayadena family !<br>
+                We’re excited to share our passion and knowledge with you. <br>
+                We hope you find a little magic in our corners.</p>
+
+            <a href="/about_us" class="cta-link">
+                <button class="cta">
+                    <span class="hover-underline-animation"> Our Mission </span>
+                    <svg id="arrow-horizontal" xmlns="http://www.w3.org/2000/svg" width="30" height="10"
+                        viewBox="0 0 46 16">
+                        <path id="Path_10" data-name="Path 10"
+                            d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                            transform="translate(30)"></path>
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </div>
+    </section>
+
+    <!-- section services-->
+    <div class="container3">
+        <h3 style="text-align: center;">Service</h3>
+        <div class="sec">
+            <img src="{{ url_for('static', filename='images/qq.jfif') }}" alt="">
+            <h4>E-commerce</h4>
+            <button><a style="color: white;"
+                    href="/category">More</a></button>
+        </div>
+        <div class="sec">
+            <img src="{{ url_for('static', filename='images/learning.jfif') }}" alt="">
+            <h4>E-Learning</h4>
+            <button><a style="color: white;"
+                    href="/plans">More</a></button>
+        </div>
+        <div class="sec">
+            <img src="{{ url_for('static', filename='images/work.jfif') }}" alt="">
+            <h4>Events</h4>
+
+            <button><a style="color: white;" href="/pottery_event">More</a></button>
+        </div>
+    </div>
+
+    <!--pormotions-->
+    <div class="subscription-container">
+        <h3>Join us & Subscripe Here</h3>
+        <p>Enroll now and let's create a thriving future together!</p>
+        <a href="/plans"><button>Subscripe</button>
+        </a>
+    </div>
+
+
+    <!-- Footer -->
+    <section class="footer">
+        <div class="footer-box">
+            <h3>Ayadena</h3>
+            <p>Ayadena provides an e-learning
+                platform<br> focused on handcrafting skills.
+                Additionally, <br>we offer an e-commerce marketplace
+                for users <br>to sell their handmade creations.</p>
+            <div class="icons">
+                <a href="#"><i class='bx bxl-facebook'></i></a>
+                <a href="#"><i class='bx bxl-instagram-alt'></i></a>
+                <a href="#"><i class='bx bxl-twitter'></i></a>
+                <a href="#"><i class='bx bxl-youtube'></i></a>
+            </div>
+        </div>
+
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <a href="#">Product Guides</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Delivery Policy</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Feedback</a>
+        </div>
+        <div class="footer-box">
+            <h3>Company</h3>
+            <a href="/about_us">About us</a>
+            <a href="#">Our Shop</a>
+            <a href="#">Contact us</a>
+            <a href="#">Our Courses</a>
+            <a href="#">Our Events</a>
+        </div>
+        <div class="footer-box">
+            <h3>contact</h3>
+            <a href="#"><i class="fas fa-map-marker-alt"></i> 23 Bahgat Ali, Mohamed Mazher<br>Zamalek,Cairo.</a>
+            <a href="#"><i class="far fa-envelope" style="margin-right: 10px;"></i>Ayadena@gmail.com</a>
+            <a href="#"><i class="fa fa-phone-volume" style="margin-right:10px;"></i>010 0088 5201</a>
+
+        </div>
+
+
+
+    </section>
+    <!-- Copyright -->
+
+
+
+
+    <!-- custom js file link-->
+    <script src="{{url_for('static', filename='home.js')}}"></script>
+    <script>
+        function subscribe() {
+            const email = document.getElementById('email').value;
+            if (email) {
+                alert('Subscribed with ' + email);
+            } else {
+                alert('Please enter a valid email.');
+            }
+        }
+    </script>
+</body>
+
+</html>

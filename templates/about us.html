@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="icon" href="img/img1.jpeg">
+    <link rel="stylesheet" href="{{url_for('static', filename='about us.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Pacifico&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <header>
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='/images/heyy.png') }}" alt="Logo" style="margin-top: -2px;"> Ayadena
+        </a>
+
+        <ul class="navlist">
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">login</a></li>
+            <li><a href="/about_us">About</a></li>
+            <li><a href="/category">Shop</a></li>
+            <div class="nav-right">
+                <a href="#"><i class='bx bx-user'></i></a>
+                <a href="/add_to_cart"><i class='bx bxs-cart-alt'></i></a>
+            </div>
+        </ul>
+    </header>
+
+    <div class="container1">
+        <div class="img-section">
+            <img src="{{ url_for('static', filename='img/spherical notions.jfif') }}" alt="design"
+                style="width:340px; height: 540px; margin-top: -15px; margin-inline-start: 25px; display: inline-block;">
+            <img src="{{ url_for('static', filename='img/download (1).jfif') }}" alt="semi circle" id="semi-circle">
+        </div>
+        <div class="text-section">
+            <h3>Ayadena will tell you the story!</h3>
+            <p style="font-size: 17px; padding-left: 10px;">Revive the ancestor written history. <br> because we are
+                proud of our heritage and authentic Egyptian. <br>so we decide to revive and spread it around the
+                world<br> our first goal reviving some ancient craft by teaching <br>them to people in Egypt and around
+                the world <br>
+
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="container2">
+        <div class="main-1">
+            <img src="{{ url_for('static', filename='img/img3 (2).jfif') }}" alt="">
+        </div>
+        <div class="middle">
+            <h3 class="m1">Mission</h3>
+            <p>Our website opens new doors for handmade products, a new way to be traded across the world an opportunity
+                to reach the world's different customers with just a few clicks
+                Ayadena teaches people several types of handcraft that satisfy every taste through super qualified
+                instructors in different fields 100%. virtually to save the user time and through customized
+                subscription plans to save user's money and to ensure get best and full experienced .
+            </p>
+            <h3 class="m1" id="h3">Vision</h3>
+            <p id="section-2">We target to assist unemployed people, by teaching them a craft <br> that could be the
+                first step to their own business and to expand the market of handmade products <br>through offering
+                craftsmen the place to sell their handmade items in our stores if you are just interested in buying
+                handmade products <br> you came to the right place!</p>
+        </div>
+        <div class="main-2">
+            <img src="{{ url_for('static', filename='img/img4.jfif') }}" alt="">
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <h1 style="color: #803D3B; text-align: center;"> Meet Our Team</h1>
+        <hr>
+        <div class="members">
+            <div class="team-mem">
+                <img src="{{ url_for('static', filename='img/img1..jpeg') }}">
+                <h4>Mr. Omar</h4>
+                <p>Operations Manger</p>
+            </div>
+            <div class="team-mem">
+                <img src="{{ url_for('static', filename='img/img1..jpeg') }}">
+                <h4>Mrs. Salsabel</h4>
+                <p>Founder</p>
+            </div>
+            <div class="team-mem">
+                <img src="{{ url_for('static', filename='images/saloma.jpg') }}">
+                <h4>Mrs. Salma</h4>
+                <p>Marketing Director</p>
+            </div>
+            <div class="team-mem">
+                <img src="{{ url_for('static', filename='img/img1..jpeg') }}">
+                <h4>Mrs. Sohair</h4>
+                <p>CEO</p>
+            </div>
+            <div class="team-mem">
+                <img src="{{ url_for('static', filename='img/img1..jpeg') }}">
+                <h4>Mrs. Shrouk</h4>
+                <p>Content Director</p>
+            </div>
+            <div class="team-mem">
+                <img src="{{ url_for('static', filename='images/sohaila.jpg') }}">
+                <h4>Sohila Ali</h4>
+                <p>CTO</p>
+            </div>
+        </div>
+    </div>
+    <script src="{{url_for('static', filename='home.js')}}"></script>
+
+</body>
+
+</html>

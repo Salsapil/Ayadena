@@ -15,7 +15,7 @@ class CategoryList(MethodView):
         category = ProductCategoryModel.query.all()
         category = PlainCatSchema().dump(category, many=True)
         print(category)
-        return render_template('index.html', category=category)
+        return render_template('categories.html', category=category)
 
     @blp.arguments(PlainCatSchema) #dn make name unique 
     @blp.response(201, PlainCatSchema)

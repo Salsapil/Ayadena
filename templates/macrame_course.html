@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Responsive Video Playlist Tutorial</title>
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{{url_for('static', filename='macrame_course.css')}}">
+
+</head>
+<body>
+   
+<div class="container">
+
+   <div class="main-video-container">
+      <video src="{{url_for('static', filename='/videos/vidd-1.mp4')}}" loop controls class="main-video"></video>
+      <h3 class="main-vid-title">1- عقدة البداية و العقدة المربعة</h3>
+   </div>
+
+   <div class="video-list-container">
+
+      <div class="list active">
+         <video src="{{url_for('static', filename='/videos/vid-1.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">1- عقدة البداية و العقدة المربعة</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vidd-2.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">2- العقدة الحلزونية و طريقة حساب الخيط</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vidd-3.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">3- العقدة المربعه بالتبادل</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vidd-4.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">4-  طريقة العقدة المزدوجة</h3>
+      </div>
+
+      <div class="list">
+         <video src="{{url_for('static', filename='/videos/vidd-5.mp4')}}" class="list-video"></video>
+         <h3 class="list-title">5- شرح طريقه عمل معين بالمكرميه</h3>
+      </div>
+
+   </div>
+   <div>
+      <h2 style="padding-top: 10px; color:brown">Description:</h2>
+    <p style="padding-top: 10px; color: black; ">In this Course, you will not only learn how to make a macrame wall hanging tapestry. You will also learn how to prepare your project from the cord choice to measuring and cutting. Macrame courses typically involve teaching students the art of creating decorative and functional items using knotting techniques. These courses often cover various macrame knots, patterns, and designs, as well as the different types of materials and tools used in macrame projects. Students may learn how to create wall hangings, plant hangers, jewelry, and other intricate macrame pieces.
+
+      In addition to hands-on practice, macrame courses may also include instruction on design principles, color theory, and how to incorporate different textures and elements into macrame projects. Some courses may also cover the history and cultural significance of macrame, as well as contemporary trends and styles in the art form.</p>
+     <br>
+     <br>
+     <h2 style="padding-top: 10px; color:brown" dir="rtl">وصف:</h2>
+     <p style="padding-top: 10px; color: black;">في هذه الدورة، لن تتعلم فقط كيفية صنع نسيج معلق على الحائط من المكرامية. سوف تتعلم أيضًا كيفية إعداد مشروعك بدءًا من اختيار السلك وحتى القياس والقطع. تتضمن دورات Macrame عادةً تعليم الطلاب فن إنشاء العناصر الزخرفية والوظيفية باستخدام تقنيات العقد. غالبًا ما تغطي هذه الدورات عقدًا وأنماطًا وتصميمات مختلفة من المكرمية، بالإضافة إلى الأنواع المختلفة من المواد والأدوات المستخدمة في مشاريع المكرمية. قد يتعلم الطلاب كيفية إنشاء معلقات جدارية، وشماعات نباتية، ومجوهرات، وغيرها من قطع المكرامية المعقدة.
+
+      بالإضافة إلى التدريب العملي، قد تتضمن دورات المكرمية أيضًا تعليمات حول مبادئ التصميم ونظرية الألوان وكيفية دمج الأنسجة والعناصر المختلفة في مشاريع المكرامية. قد تغطي بعض الدورات أيضًا التاريخ والأهمية الثقافية للمكرامية، بالإضافة إلى الاتجاهات والأساليب المعاصرة في الشكل الفني.</p>
+   </div>
+
+</div>
+
+<!-- custom js file link  -->
+<script src="{{url_for('static', filename='macrame_course.js')}}"></script>
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+      let videoList = document.querySelectorAll('.video-list-container .list');
+
+      videoList.forEach(vid => {
+         vid.onclick = () => {
+            videoList.forEach(remove => { remove.classList.remove('active') });
+            vid.classList.add('active');
+            let src = vid.querySelector('.list-video').src;
+            let title = vid.querySelector('.list-title').innerHTML;
+            document.querySelector('.main-video-container .main-video').src = src;
+            document.querySelector('.main-video-container .main-video').play();
+            document.querySelector('.main-video-container .main-vid-title').innerHTML = title;
+         };
+      });
+   });
+</script>
+</body>
+</html>

@@ -94,14 +94,13 @@
             $("#products").append(
                 `
                 <div class="product-card" data-product-id="${element["product_id"]}">
-                    <img src="/static/images/${element["image"]}" alt="Product Image" style="height: 250px;">
+                    <img src="/static/imagess/${element["image"]}" alt="Product Image" style="height: 250px;">
                     <h3>${element["name"]}</h3>
                     <h6>#QUE-${element["product_id"]}</h6>
                     <p>${element["description"]}</p>
                     <p>${element["price"]} LE.</p>
                     <button type="button" class="btn btn-danger delete">Delete</button>
-                    <button type="button" class="btn btn-secondary update" onclick=
-                    "window.location.href = '#uproduct';">Update</button>
+                    <button type="button" class="btn btn-secondary update">Update</button>
                 </div>
             `
             )
@@ -129,6 +128,8 @@
                 success: function (response) {
                     console.log(response)
                     console.log('Product Added successfully:', response);
+                    alert("Product Added successfully!");
+                    location.reload();
                 },
                 // error: function (response) {
                 //     console.log(response)
@@ -150,6 +151,8 @@
                 data: JSON.stringify({ product_id: product_id }),
                 success: function (response) {
                     console.log(response);
+                    alert("Product Deleted successfully!");
+                    location.reload();
                 },
                 // error: function (error) {
                 //     console.error('Error removing product:', error);
@@ -188,6 +191,8 @@
                     data: JSON.stringify(productPayload),
                     success: function (response) {
                         console.log('Product updated successfully:', response);
+                        alert("Product updated successfully");
+                        location.reload();
                     }
                 });
             });

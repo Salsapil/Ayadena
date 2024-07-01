@@ -15,7 +15,8 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Playwrite+SK:wght@100..400&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Playwrite+SK:wght@100..400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{url_for('static', filename='style_loginn.css')}}" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -36,7 +37,8 @@
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" id="password" name="password" placeholder="Password" class="password" required>
+                        <input type="password" id="password" name="password" placeholder="Password" class="password"
+                            required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
@@ -52,11 +54,13 @@
                     </button>
                 </div>
 
-                <div class="error-message" id="wrong_password" style="display: none; border-left: 2px solid red; padding-left: 10px; margin-top: 10px;">
+                <div class="error-message" id="wrong_password"
+                    style="display: none; border-left: 2px solid red; padding-left: 10px; margin-top: 10px;">
                     <!-- This div will display error messages -->
                 </div>
 
-                <div class="success-message" id="login_success" style="display: none; border-left: 2px solid green; padding-left: 10px; margin-top: 10px;">
+                <div class="success-message" id="login_success"
+                    style="display: none; border-left: 2px solid green; padding-left: 10px; margin-top: 10px;">
                     <!-- This div will display success messages -->
                 </div>
             </div>
@@ -87,10 +91,15 @@
                             console.log('Login successful', response);
                             $("#wrong_password").hide();
                             $("#login_success").text("Login successful! Redirecting...").show();
-                            // Redirect after a short delay
-                            // setTimeout(function() {
-                            //     window.location.href = '/dashboard';
-                            // }, 2000);
+
+                            let redirectUrl = '/';
+                            if (response.user_type === 'admin') {
+                                redirectUrl = '/register_admin';
+                            } else if (response.user_type === 'seller') {
+                                redirectUrl = '/product';
+                            }
+
+                            window.location.href = redirectUrl;
                         },
                         error: function (response) {
                             console.log(response);

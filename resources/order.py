@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from db import db
 from models import OrderModel, OrderProductModel, ProductModel, PaymentModel, UserModel
-from flask import render_template, request, json, jsonify
+from flask import render_template, request, json, jsonify, session
 import datetime
 from schemas import ProductSchema, OrderSchema, PlainPaymentSchema, OrderProductSchema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
@@ -13,11 +13,11 @@ blp = Blueprint("Orders", __name__, description="Operations on categories")
 class OrderList(MethodView):
     # @blp.response(200, PlainCatSchema(many=True))
     def get(self):
-        buyer_id = 7
+        buyer_id = session.get('identity_id')
         order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
 
         if not order:
-            return render_template('cart.html', order=[])
+            return render_template('/cartt.html', order=[])
 
         order_products = OrderProductModel.query.filter_by(order_id=order.order_id).all()
 
@@ -26,13 +26,13 @@ class OrderList(MethodView):
         
         products_data = ProductSchema(many=True).dump(products)
 
-        return render_template('cart.html', order=products_data)
+        return render_template('/cartt.html', order=products_data)
 
     # @blp.arguments(OrderSchema) #dn make name unique 
     # @blp.response(201, OrderSchema)
     def post(self):
         order_data = request.get_json()
-        buyer_id = 7
+        buyer_id = session.get('identity_id')
         product_id = order_data.get("product_id")
 
         product = ProductModel.query.get(product_id)
@@ -74,7 +74,7 @@ class RemoveFromCart(MethodView):
     def delete(self):
         order_data = request.get_json()
         product_id = order_data.get("product_id")
-        buyer_id = 7
+        buyer_id = session.get('identity_id')
 
         # Find the current incomplete order
         order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
@@ -96,7 +96,7 @@ class RemoveFromCart(MethodView):
 class UpdateOrder(MethodView):
     def put(self):
         order_data = request.get_json()
-        buyer_id = 7
+        buyer_id = session.get('identity_id')
         order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
         order_id = order.order_id
 
@@ -124,7 +124,7 @@ class UpdateOrder(MethodView):
 class InsertPayment(MethodView):
     def post(self):
         payment_data = request.get_json()
-        buyer_id = 7
+        buyer_id = session.get('identity_id')
         order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
         order_id = order.order_id
         try:
@@ -155,10 +155,10 @@ class InsertPayment(MethodView):
 
 @blp.route("/checkout", methods=["GET"])
 def checkout():
-    buyer_id = 7
+    buyer_id = session.get('identity_id')
     order = OrderModel.query.filter_by(buyer_id=buyer_id, order_compelete=False).first()
     order_id = order.order_id
-    return render_template("checkout.html", order_id=order_id)
+    return render_template("payment.html", order_id=order_id)
 
 # final
 @blp.route('/admin_orders', methods=['GET'])

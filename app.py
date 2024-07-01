@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from db import db
+from flask import render_template
 import urllib.parse
 from resources.user import blp as UserBlueprint
 from resources.admin import blp as AdminBlueprint
@@ -46,7 +47,17 @@ def create_app(db_url=None):
     api.register_blueprint(VideoBlueprint)
     api.register_blueprint(OrderBlueprint)
     app.config["JWT_SECRET_KEY"] = "Salsabil"
+    app.config['SECRET_KEY'] = 'your_secret_key'
+    app.config['SESSION_TYPE'] = 'filesystem'
     jwt = JWTManager(app)
+
+    @app.route('/')
+    def home():
+        return render_template('home.html')
+    
+    @app.route('/about_us')
+    def about():
+        return render_template('about us.html')
 
     # with app.app_context():
     #     import models

@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-transform: capitalize;
+  transition: all .2s linear;
+  /* Removed overflow: hidden; to allow content to fit within the screen */
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: white;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px; /* Added padding to ensure content doesn't touch screen edges */
+}
+
+.container form {
+  padding: 20px;
+  width: 100%; /* Adjusted to be responsive */
+  max-width: 350px; /* Ensures form does not exceed a certain width */
+  background: #ece5d3;
+}
+
+.container .col {
+  flex: 1 1 250px;
+}
+
+.container .col .title {
+  font-size: 20px;
+  color: #333;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.container .col .inputBox {
+  margin: 15px 0;
+}
+
+.container .col .inputBox span {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.container .col .inputBox input {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  font-size: 15px;
+  text-transform: none;
+}
+
+.container .col .inputBox input:focus {
+  border: 1px solid #000;
+}
+
+.container .col .flex {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap; /* Added to ensure items wrap on smaller screens */
+}
+
+.container .col .flex .inputBox {
+  margin-top: 5px;
+  flex: 1; /* Ensure flex items take up equal space */
+}
+
+.container .col .inputBox img {
+  height: 34px;
+  margin-top: 5px;
+  filter: drop-shadow(0 0 1px #000);
+}
+
+.container .submit-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 17px;
+  background: #803D3B;
+  color: white;
+  margin-top: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container .submit-btn:hover {
+  background: #D2CABB;
+}
+
+.container .submit-btn1 {
+  width: 100%;
+  padding: 12px;
+  font-size: 17px;
+  color: white;
+  margin-top: 7px;
+  background: none;
+}
